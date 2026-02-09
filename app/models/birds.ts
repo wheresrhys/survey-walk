@@ -1,4 +1,9 @@
-export const birds = [["G Goose", "Greylag Goose", "Greylag Goose"],
+export type Bird = {
+  shortName: string;
+  lvrpaName: string;
+  ebirdName: string;
+}
+export const birds: Bird[] = [["G Goose", "Greylag Goose", "Greylag Goose"],
   ["C Goose", "Canada Goose", "Canada Goose"],
   ["E Goose", "Egyptian Goose", "Egyptian Goose"],
   ["Swan", "Mute Swan", "Mute Swan"],

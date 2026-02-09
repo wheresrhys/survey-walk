@@ -3,6 +3,17 @@
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
+// import { HSTabs } from "flyonui/flyonui";
+
+// declare global {
+//   interface Window {
+//     HSTabs: typeof HSTabs;
+//   }
+// }
+
+// export { };
+
+
 async function loadFlyonUI() {
   return import('flyonui/flyonui');
 }
@@ -24,6 +35,7 @@ export default function LoadFlyonUI() {
         window.HSStaticMethods &&
         typeof window.HSStaticMethods.autoInit === 'function'
       ) {
+        console.log('aaaaa')
         window.HSStaticMethods.autoInit();
       }
     }, 100);
