@@ -1,11 +1,12 @@
-
+'use client';
 import { sectors, type Sector } from "@/app/models/sectors";
 import { birds, type Bird } from "@/app/models/birds";
 import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";
-export const SurveyContext = createContext<Record<string, Record<string, number>> | null>(null);
-export const SurveyDispatchContext = createContext<Dispatch<any> | null>(null);
+
+export const SurveyContext = createContext<Record<string, Record<string, number>>>({} as Record<string, Record<string, number>>);
+export const SurveyDispatchContext = createContext<any>(null);
 
 export function useSurvey() {
   return useContext(SurveyContext);

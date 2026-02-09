@@ -19,14 +19,7 @@ function createSession(birds: Bird[], sectors: Sector[]): Record<string, Record<
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectors[0].id);
   const surveyData = useSurvey();
-  const dispatch = useSurveyDispatch();
-  function decreaseBirdCount(birdName: string) {
-    dispatch({ type: 'DECREASE_BIRD', birdName, sectorId: activeTab });
-  }
-
-  function increaseBirdCount(birdName: string) {
-    dispatch({ type: 'INCREASE_BIRD', birdName, sectorId: activeTab });
-  }
+  console.log('out', surveyData);
   return (
     <div className="">
       <main className="">
@@ -42,7 +35,7 @@ export default function Home() {
           {sectors.map((sector) => (
             <div id={`tab-content-${sector.id}`} role="tabpanel" aria-labelledby={`tab-button-${sector.id}`} className={`${activeTab === sector.id ? 'block' : 'hidden'}`} key={sector.id}>
       <h2>{sector.name}</h2>
-              <SectorSurvey key={sector.id} sector={sector} birds={birds} surveyData={surveyData} activeTab={activeTab} decreaseBirdCount={decreaseBirdCount} increaseBirdCount={increaseBirdCount} />
+              <SectorSurvey key={sector.id} birds={birds} surveyData={surveyData[sector.id]} activeTab={activeTab} />
             </div>
           ))}
         </div>
