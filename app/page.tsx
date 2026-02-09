@@ -19,25 +19,24 @@ function createSession(birds: Bird[], sectors: Sector[]): Record<string, Record<
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectors[0].id);
   const surveyData = useSurvey();
-  console.log('out', surveyData);
+  const activeSector = sectors.find((sector) => sector.id === activeTab) as Sector;
+
   return (
     <div className="">
       <main className="">
         <nav className="tabs tabs-bordered overflow-x-auto" aria-label="Tabs" role="tablist" aria-orientation="horizontal" id="sector-tabs">
           {sectors.map((sector, index) => (
-            <button key={sector.id} type="button" className={`tab active-tab:tab-active ${index === 0 ? 'active' : ''}`} id={`tab-button-${sector.id}`} data-tab={`#tab-content-${sector.id}`} aria-controls={`#tab-content-${sector.id}`} role="tab" aria-selected="true">
+            <button key={sector.id} type="button" className={`tab active-tab:tab-active ${activeTab === sector.id ? 'active' : ''}`} id={`tab-button-${sector.id}`} data-tab={`#tab-content`} aria-controls={`#tab-content`} role="tab" aria-selected={activeTab === sector.id} onClick={() => setActiveTab(sector.id)} >
               {sector.name}
             </button>
           ))}
         </nav>
 
         <div className="mt-2 p-2">
-          {sectors.map((sector) => (
-            <div id={`tab-content-${sector.id}`} role="tabpanel" aria-labelledby={`tab-button-${sector.id}`} className={`${activeTab === sector.id ? 'block' : 'hidden'}`} key={sector.id}>
-      <h2>{sector.name}</h2>
-              <SectorSurvey key={sector.id} birds={birds} surveyData={surveyData[sector.id]} activeTab={activeTab} />
+          <div id={`tab-content`} role="tabpanel" aria-labelledby={`tab-button-${activeSector.id}`} className='block'>
+            <h2>{activeSector.name}</h2>
+            <SectorSurvey key={activeSector.id} birds={birds} surveyData={surveyData[activeSector.id]} activeTab={activeTab} />
             </div>
-          ))}
         </div>
 
 

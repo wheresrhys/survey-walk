@@ -9,7 +9,7 @@ type Action = {
 export function surveyReducer(draft: Draft<Record<string, Record<string, number>>>, action: Action): Draft<Record<string, Record<string, number>>> {
   switch (action.type) {
     case 'DECREASE_BIRD':
-      draft[action.sectorId][action.birdName] = draft[action.sectorId][action.birdName] - 1;
+      draft[action.sectorId][action.birdName] = Math.max(0, draft[action.sectorId][action.birdName] - 1);
 
       return draft;
     case 'INCREASE_BIRD':
