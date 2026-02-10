@@ -2,8 +2,7 @@
 
 import { sectors, type Sector } from "@/app/models/sectors";
 import { birds, type Bird } from "@/app/models/birds";
-import { useImmer } from "use-immer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
 
 import { useSurvey, useSurveyDispatch } from '@/app/components/SurveyProvider';
