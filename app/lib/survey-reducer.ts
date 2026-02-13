@@ -1,5 +1,5 @@
 import { Draft } from "immer";
-import { type SurveyData } from "@/app/components/SurveyProvider";
+import { createSession, type SurveyData } from "@/app/models/session";
 import { type BreedingCode, type BroodAge } from "@/app/models/breeding";
 
 interface BaseAction {
@@ -10,6 +10,9 @@ interface BaseAction {
 
 // Individual action types using discriminated unions
 export type SurveyAction =
+  | ({
+      type: "CLEAR_SESSION";
+    } & BaseAction)
   | ({ type: "DECREASE_BIRD" } & BaseAction)
   | ({ type: "INCREASE_BIRD" } & BaseAction)
   | ({ type: "UPDATE_BIRD_COUNT"; count: number } & BaseAction)
@@ -37,6 +40,8 @@ export function surveyReducer(
   action: SurveyAction,
 ): Draft<SurveyData> {
   switch (action.type) {
+    case "CLEAR_SESSION":
+      return createSession();
     case "DECREASE_BIRD":
       draft[action.sectorId][action.birdName].count = Math.max(
         0,

@@ -1,12 +1,8 @@
 "use client";
-import { sectors, type Sector } from "@/app/models/sectors";
-import { birds, type Bird } from "@/app/models/birds";
-import {
-  breedingCodes,
-  type BreedingCode,
-  type BroodAge,
-  type BroodData,
-} from "@/app/models/breeding";
+import { sectors } from "@/app/models/sectors";
+import { birds } from "@/app/models/birds";
+import { createSession, type SurveyData } from "@/app/models/session";
+import { type BreedingCode, type BroodData } from "@/app/models/breeding";
 import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";
@@ -24,7 +20,6 @@ export type BirdData = {
 };
 
 export type SectorData = Record<string, BirdData>;
-export type SurveyData = Record<string, SectorData>;
 
 export function useSurvey() {
   return useContext(SurveyContext);
@@ -34,30 +29,12 @@ export function useSurveyDispatch() {
   return useContext(SurveyDispatchContext);
 }
 
-function createSession(
-  birds: Bird[],
-  sectors: Sector[],
-): Record<string, Record<string, BirdData>> {
-  return sectors.reduce((acc, sector) => {
-    acc[sector.id] = birds.reduce((acc, bird) => {
-      acc[bird.shortName] = {
-        count: 0,
-        notes: "",
-        broods: [],
-        breedingCodes: [],
-      } as BirdData;
-      return acc as SectorData;
-    }, {} as SectorData);
-    return acc as SurveyData;
-  }, {} as SurveyData);
-}
-
 export default function SurveyProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const defaultSession = createSession(birds, sectors);
+  const defaultSession = createSession();
   const [storedSession, setStoredSession] = useLocalStorage<SurveyData | null>(
     "survey-data",
     null,
