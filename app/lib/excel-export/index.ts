@@ -12,8 +12,8 @@ const mockWorksheet = {
 export function exportToExcel(surveyData: SurveyData) {
   const workbook = new ExcelJS.Workbook();
   // exportToEbird(workbook.addWorksheet("Ebird"), surveyData);
-  exportToEbird(mockWorksheet as ExcelJS.worksheet, surveyData, true);
-  exportToEbird(mockWorksheet as ExcelJS.worksheet, surveyData, false);
-  exportToLvrpa(mockWorksheet as ExcelJS.worksheet, surveyData, "Fields");
-  exportToLvrpa(mockWorksheet as ExcelJS.worksheet, surveyData, "Waterworks");
+  exportToEbird(mockWorksheet as ExcelJS.Worksheet, surveyData, true);
+  exportToEbird(mockWorksheet as ExcelJS.Worksheet, surveyData, false);
+  exportToLvrpa(mockWorksheet as ExcelJS.Worksheet, surveyData, "Fields");
+  exportToLvrpa(mockWorksheet as ExcelJS.Worksheet, surveyData, "Waterworks");
 }
