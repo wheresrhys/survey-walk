@@ -1,11 +1,10 @@
-import { Bird } from "@/app/models/birds";
 import {
   useSurveyDispatch,
-  type BirdData,
 } from "@/app/components/SurveyProvider";
 import { breedingCodes, type BreedingCode } from "@/app/models/breeding";
 import { Broods } from "@/app/components/Broods";
 import { Modal } from "@/app/components/Modal";
+import { type BirdData } from "@/app/models/session";
 export function BirdDetailPopup({
   birdName,
   birdData,

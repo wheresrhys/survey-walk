@@ -1,6 +1,4 @@
 "use client";
-import { sectors } from "@/app/models/sectors";
-import { birds } from "@/app/models/birds";
 import { createSession, type SurveyData } from "@/app/models/session";
 import { type BreedingCode, type BroodData } from "@/app/models/breeding";
 import { createContext, useContext } from "react";
@@ -11,13 +9,6 @@ import { useEffect, useState } from "react";
 
 export const SurveyContext = createContext<SurveyData>({} as SurveyData);
 export const SurveyDispatchContext = createContext<any>(null);
-
-export type BirdData = {
-  count: number;
-  breedingCodes: BreedingCode[];
-  notes: string;
-  broods: BroodData[];
-};
 
 export function useSurvey() {
   return useContext(SurveyContext);

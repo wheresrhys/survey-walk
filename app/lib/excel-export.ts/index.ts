@@ -1,5 +1,5 @@
 import ExcelJS from "exceljs";
-
+import { type SurveyData } from "@/app/models/session";
 export function exportToExcel(surveyData: SurveyData) {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Survey Data");
