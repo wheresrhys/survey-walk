@@ -19,8 +19,6 @@ export type BirdData = {
   broods: BroodData[];
 };
 
-export type SectorData = Record<string, BirdData>;
-
 export function useSurvey() {
   return useContext(SurveyContext);
 }

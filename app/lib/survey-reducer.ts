@@ -44,54 +44,60 @@ export function surveyReducer(
     case "CLEAR_SESSION":
       return createSession();
     case "DECREASE_BIRD":
-      draft[action.sectorId][action.birdName].count = Math.max(
+      draft.sectors[action.sectorId].birds[action.birdName].count = Math.max(
         0,
-        draft[action.sectorId][action.birdName].count - 1,
+        draft.sectors[action.sectorId].birds[action.birdName].count - 1,
       );
       return draft;
     case "INCREASE_BIRD":
-      draft[action.sectorId][action.birdName].count =
-        draft[action.sectorId][action.birdName].count + 1;
+      draft.sectors[action.sectorId].birds[action.birdName].count =
+        draft.sectors[action.sectorId].birds[action.birdName].count + 1;
       console.log("increase", draft);
       return draft;
     case "UPDATE_BIRD_COUNT":
-      draft[action.sectorId][action.birdName].count = action.count || 0;
+      draft.sectors[action.sectorId].birds[action.birdName].count =
+        action.count || 0;
       return draft;
     case "UPDATE_BIRD_NOTES":
-      draft[action.sectorId][action.birdName].notes = action.notes;
+      draft.sectors[action.sectorId].birds[action.birdName].notes =
+        action.notes;
       return draft;
     case "UPDATE_BIRD_BREEDING_CODES":
       if (action.checked) {
-        draft[action.sectorId][action.birdName].breedingCodes = [
-          ...draft[action.sectorId][action.birdName].breedingCodes,
+        draft.sectors[action.sectorId].birds[action.birdName].breedingCodes = [
+          ...draft.sectors[action.sectorId].birds[action.birdName]
+            .breedingCodes,
           action.breedingCode,
         ];
       } else {
-        draft[action.sectorId][action.birdName].breedingCodes = draft[
-          action.sectorId
-        ][action.birdName].breedingCodes.filter(
-          (code) => code !== action.breedingCode,
-        );
+        draft.sectors[action.sectorId].birds[action.birdName].breedingCodes =
+          draft.sectors[action.sectorId].birds[
+            action.birdName
+          ].breedingCodes.filter((code) => code !== action.breedingCode);
       }
       return draft;
     case "ADD_BROOD":
-      draft[action.sectorId][action.birdName].broods.push({
+      draft.sectors[action.sectorId].birds[action.birdName].broods.push({
         count: 1,
         age: null,
       });
       return draft;
     case "REMOVE_BROOD":
-      const broodsCopy = [...draft[action.sectorId][action.birdName].broods];
+      const broodsCopy = [
+        ...draft.sectors[action.sectorId].birds[action.birdName].broods,
+      ];
       broodsCopy.splice(action.broodIndex, 1);
-      draft[action.sectorId][action.birdName].broods = broodsCopy;
+      draft.sectors[action.sectorId].birds[action.birdName].broods = broodsCopy;
       return draft;
     case "UPDATE_BROOD_COUNT":
-      draft[action.sectorId][action.birdName].broods[action.broodIndex].count =
-        action.count || 0;
+      draft.sectors[action.sectorId].birds[action.birdName].broods[
+        action.broodIndex
+      ].count = action.count || 0;
       return draft;
     case "UPDATE_BROOD_AGE":
-      draft[action.sectorId][action.birdName].broods[action.broodIndex].age =
-        action.age as BroodAge;
+      draft.sectors[action.sectorId].birds[action.birdName].broods[
+        action.broodIndex
+      ].age = action.age as BroodAge;
       return draft;
     case "ADD_SPECIES":
       console.log(
@@ -101,14 +107,17 @@ export function surveyReducer(
         Object.keys(draft),
       );
       Object.keys(draft).forEach((sectorId) => {
-        draft[sectorId][action.birdName] = {
+        draft.sectors[sectorId].birds[action.birdName] = {
           count: sectorId === action.sectorId ? 1 : 0,
           notes: "",
           broods: [],
           breedingCodes: [],
         };
       });
-      console.log("add species", draft[action.sectorId][action.birdName]);
+      console.log(
+        "add species",
+        draft.sectors[action.sectorId].birds[action.birdName],
+      );
       return draft;
     default:
       return draft;

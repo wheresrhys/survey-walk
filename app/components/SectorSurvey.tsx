@@ -1,19 +1,14 @@
-import { Bird } from "@/app/models/birds";
-import {
-  useSurveyDispatch,
-  type SectorData,
-} from "@/app/components/SurveyProvider";
+import { useSurveyDispatch } from "@/app/components/SurveyProvider";
+import { type SectorData } from "@/app/models/session";
 import { useLongPress } from "@react-aria/interactions";
 import { useState } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
 
 export function SectorSurvey({
-  birds,
   activeTab,
-  surveyData,
+  sectorSurveyData,
 }: {
-  birds: Bird[];
-  surveyData: SectorData;
+  sectorSurveyData: SectorData;
   activeTab: string;
 }) {
   const dispatch = useSurveyDispatch();
@@ -53,17 +48,17 @@ export function SectorSurvey({
           birdName={focusedBird}
           sectorId={activeTab}
           onClose={() => setFocusedBird(null)}
-          birdData={surveyData[focusedBird]}
+          birdData={sectorSurveyData.birds[focusedBird]}
         />
       ) : null}
       <div className="flex flex-wrap gap-1 mb-2">
-        {Object.keys(surveyData).map((bird) => (
+        {Object.keys(sectorSurveyData.birds).map((bird) => (
           <div className="join flex-[0_0_calc(33.333%-0.333rem)]" key={bird}>
             <button
               className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
               onClick={() => decreaseBirdCount(bird)}
             >
-              {surveyData[bird].count}
+              {sectorSurveyData.birds[bird].count}
             </button>
             <button
               className="btn btn-sm btn-soft btn-primary join-item flex-1 min-w-0"

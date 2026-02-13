@@ -5,7 +5,7 @@ import { birds } from "@/app/models/birds";
 import { type SectorData } from "@/app/models/session";
 import { useState } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
-
+import { exportToExcel } from "@/app/lib/excel-export";
 import { useSurveyDispatch, useSurvey } from "@/app/components/SurveyProvider";
 
 export default function Home() {
@@ -65,8 +65,7 @@ export default function Home() {
           </h2>
           <SectorSurvey
             key={activeSector.id}
-            birds={birds}
-            surveyData={surveyData[activeSector.id] as SectorData}
+            sectorSurveyData={surveyData.sectors[activeSector.id]}
             activeTab={activeTab}
           />
         </div>
