@@ -17,6 +17,7 @@ export default function () {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const weatherData = [...formData.keys()].reduce((acc, key) => {
+      // @ts-expect-error - key is a string, but we know it's a key of Weather
       acc[key] = parseInt(formData.get(key) as string, 10);
       return acc;
     }, {} as Partial<Weather>) as Weather;
