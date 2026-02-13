@@ -12,7 +12,10 @@ function stringifyTally(tally: BirdTally, withComments: boolean) {
 export function exportToEbird(
   worksheet: ExcelJS.Worksheet,
   surveyData: SiteSurveyData,
-  withComments: boolean,
+  options: {
+    includeComments: boolean;
+    includeAllBirds: boolean;
+  },
 ) {
   const tally = tallyUp(surveyData, (sector) => true);
   const startTime = surveyData.sectors[sectorsList[0].id].startTime as Date;
@@ -39,17 +42,21 @@ export function exportToEbird(
   ]);
 
   birdsList.forEach((bird) => {
-    if (tally[bird.shortName].count > 0) {
+    if (options.includeAllBirds || tally[bird.shortName].count > 0) {
       worksheet.addRow([
         bird.ebirdName,
         "",
-        stringifyTally(tally[bird.shortName], withComments),
+        stringifyTally(tally[bird.shortName], options.includeComments),
       ]);
     }
   });
   Object.entries(tally).forEach(([birdName, tally]) => {
     if (!birdsList.find((bird: BirdMetadata) => bird.shortName === birdName)) {
-      worksheet.addRow([birdName, "", stringifyTally(tally, withComments)]);
+      worksheet.addRow([
+        birdName,
+        "",
+        stringifyTally(tally, options.includeComments),
+      ]);
     }
   });
 }

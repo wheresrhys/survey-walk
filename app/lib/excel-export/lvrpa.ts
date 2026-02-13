@@ -1,6 +1,6 @@
 import { SiteSurveyData } from "@/app/models/survey";
 import { format as formatDate } from "date-fns";
-import { tallyUp, type Tally } from "./tally-up";
+import { tallyUp, type GlobalBirdTally } from "./tally-up";
 import { sectorsList } from "@/app/data/sectors-gazetteer";
 import { birdsList } from "@/app/data/bird-taxonomy";
 import ExcelJS from "exceljs";
@@ -8,7 +8,7 @@ import type { BirdMetadata } from "@/app/data/bird-taxonomy";
 import type { SectorMetadata } from "@/app/data/sectors-gazetteer";
 
 function createTallyRow(
-  tally: Tally,
+  tally: GlobalBirdTally,
   bird: BirdMetadata,
   sectorsToTally: SectorMetadata[],
   surveyData: SiteSurveyData,

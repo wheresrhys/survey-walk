@@ -64,17 +64,31 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center gap-2">
-        <Link className="btn btn-primary" href="/new-session">
-          New Session
-        </Link>
+      <div className="flex items-center justify-start gap-2 flex-wrap">
         <button
           type="button"
-          className="btn btn-primary"
-          onClick={() => exportToExcel(surveyData)}
+          className="btn btn-secondary"
+          onClick={() => exportToExcel(surveyData, "lvrpa")}
         >
-          Export to Excel
+          Export LVRPA
         </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => exportToExcel(surveyData, "stats")}
+        >
+          Export stats
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => exportToExcel(surveyData, "ebird", "csv")}
+        >
+          Export Ebird
+        </button>
+        <Link className="btn btn-primary" href="/new-session">
+          Start New Survey
+        </Link>
       </div>
     </main>
   );

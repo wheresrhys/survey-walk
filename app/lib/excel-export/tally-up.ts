@@ -12,7 +12,7 @@ export type BirdTally = {
   comments: string;
 };
 
-export type Tally = Record<string, BirdTally>;
+export type GlobalBirdTally = Record<string, BirdTally>;
 
 function stringifyBirdMetadata(birdData: BirdSurveyData): string {
   return [
@@ -28,7 +28,7 @@ function stringifyBirdMetadata(birdData: BirdSurveyData): string {
 export function tallyUp(
   surveyData: SiteSurveyData,
   sectorFilter: (sector: SectorMetadata) => boolean,
-): Tally {
+): GlobalBirdTally {
   const sectorsToTally = sectorsList.filter(sectorFilter);
   const tally = sectorsToTally.reduce(
     (acc, sector) => {
@@ -63,7 +63,7 @@ export function tallyUp(
     );
   });
 
-  const finalTally = {} as Tally;
+  const finalTally = {} as GlobalBirdTally;
 
   Object.keys(processedTally).forEach((key) => {
     finalTally[key] = {
