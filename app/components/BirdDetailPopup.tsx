@@ -1,8 +1,12 @@
 import { useSurveyDispatch } from "@/app/components/SurveyProvider";
-import { breedingCodes, type BreedingCode } from "@/app/models/breeding";
+import {
+  breedingCodes,
+  type BreedingCode,
+  type BirdSurveyData,
+} from "@/app/models/survey";
 import { Broods } from "@/app/components/Broods";
 import { Modal } from "@/app/components/Modal";
-import { type BirdData } from "@/app/models/session";
+
 export function BirdDetailPopup({
   birdName,
   birdData,
@@ -10,7 +14,7 @@ export function BirdDetailPopup({
   onClose,
 }: {
   birdName: string;
-  birdData: BirdData;
+  birdData: BirdSurveyData;
   sectorId: string;
   onClose: () => void;
 }) {
@@ -86,8 +90,7 @@ export function BirdDetailPopup({
                 onChange={toggleBreedingCode}
               />
               <label className="label-text text-xs" htmlFor={breedingCode}>
-                {" "}
-                {text}{" "}
+                {text}
               </label>
             </div>
           ))}

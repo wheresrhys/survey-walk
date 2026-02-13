@@ -1,10 +1,10 @@
-export type Sector = {
+export type SectorMetadata = {
   id: string;
   name: string;
   parentArea: "Fields" | "Waterworks";
   hasWater: boolean;
 };
-export const sectors: Sector[] = [
+export const sectorsList: SectorMetadata[] = [
   { id: "overflow", name: "Overflow", parentArea: "Fields", hasWater: false },
   {
     id: "pitch-n-put",

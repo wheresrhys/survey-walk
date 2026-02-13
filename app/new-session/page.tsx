@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useSurveyDispatch } from "../components/SurveyProvider";
-import { type Weather } from "../models/session";
+import { type WeatherData } from "../models/survey";
 import { redirect } from "next/navigation";
 
 export default function () {
@@ -20,7 +20,7 @@ export default function () {
       // @ts-expect-error - key is a string, but we know it's a key of Weather
       acc[key] = parseInt(formData.get(key) as string, 10);
       return acc;
-    }, {} as Partial<Weather>) as Weather;
+    }, {} as Partial<WeatherData>) as WeatherData;
     if (confirm("Are you sure you want to clear the session?")) {
       if (confirm("Really really sure - this can't be undone????")) {
         if (confirm("On your own head be it!!")) {

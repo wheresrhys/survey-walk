@@ -1,17 +1,17 @@
-import { SurveyData } from "@/app/models/session";
+import { SiteSurveyData } from "@/app/models/survey";
 import { format as formatDate } from "date-fns";
 import { tallyUp, type Tally } from "./tally-up";
-import { sectors } from "@/app/models/sectors";
-import { birds } from "@/app/models/birds";
+import { sectorsList } from "@/app/data/sectors-gazetteer";
+import { birdsList } from "@/app/data/bird-taxonomy";
 import ExcelJS from "exceljs";
-import type { Bird } from "@/app/models/birds";
-import type { Sector } from "@/app/models/sectors";
+import type { BirdMetadata } from "@/app/data/bird-taxonomy";
+import type { SectorMetadata } from "@/app/data/sectors-gazetteer";
 
 function createTallyRow(
   tally: Tally,
-  bird: Bird,
-  sectorsToTally: Sector[],
-  surveyData: SurveyData,
+  bird: BirdMetadata,
+  sectorsToTally: SectorMetadata[],
+  surveyData: SiteSurveyData,
 ) {
   return [
     tally[bird.shortName].count,
@@ -26,16 +26,16 @@ function createTallyRow(
 
 export function exportToLvrpa(
   worksheet: ExcelJS.Worksheet,
-  surveyData: SurveyData,
+  surveyData: SiteSurveyData,
   parentArea: "Fields" | "Waterworks",
 ) {
   console.log(surveyData.weather);
-  const sectorsToTally = sectors.filter(
+  const sectorsToTally = sectorsList.filter(
     (sector) => sector.parentArea === parentArea,
   );
   const tally = tallyUp(
     surveyData,
-    (sector) => sector.parentArea === parentArea,
+    (sector: SectorMetadata) => sector.parentArea === parentArea,
   );
 
   worksheet.addRow(["", "Lee Valley Park London Bird Survey, standard walk"]);
@@ -102,17 +102,21 @@ export function exportToLvrpa(
     "Breeding code",
   ]);
 
-  birds.forEach((bird) => {
+  birdsList.forEach((bird: BirdMetadata) => {
     if (tally[bird.shortName].count > 0) {
       worksheet.addRow(createTallyRow(tally, bird, sectorsToTally, surveyData));
     }
   });
   Object.entries(tally).forEach(([birdName, birdTally]) => {
-    if (!birds.find((bird) => bird.shortName === birdName)) {
+    if (!birdsList.find((bird: BirdMetadata) => bird.shortName === birdName)) {
       worksheet.addRow(
         createTallyRow(
           tally,
-          { shortName: birdName, lvrpaName: birdName, ebirdName: birdName },
+          {
+            shortName: birdName,
+            lvrpaName: birdName,
+            ebirdName: birdName,
+          } as BirdMetadata,
           sectorsToTally,
           surveyData,
         ),

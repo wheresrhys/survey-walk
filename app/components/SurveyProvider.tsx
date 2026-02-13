@@ -1,12 +1,14 @@
 "use client";
-import { createSession, type SurveyData } from "@/app/models/session";
+import { createSurvey, type SiteSurveyData } from "@/app/models/survey";
 import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
 
-export const SurveyContext = createContext<SurveyData>({} as SurveyData);
+export const SurveyContext = createContext<SiteSurveyData>(
+  {} as SiteSurveyData,
+);
 export const SurveyDispatchContext = createContext<any>(null);
 
 export function useSurvey() {
@@ -24,10 +26,10 @@ export default function SurveyProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const defaultSession = createSession();
+  const defaultSession = createSurvey();
   const [storedSession, setStoredSession] = useLocalStorage<{
     schemaVersion: number;
-    surveyData: SurveyData;
+    surveyData: SiteSurveyData;
   } | null>("survey-data", null);
 
   const [isMounted, setIsMounted] = useState(false);

@@ -1,8 +1,8 @@
-import { SurveyData } from "@/app/models/session";
+import { SiteSurveyData } from "@/app/models/survey";
 import { format as formatDate } from "date-fns";
 import { tallyUp, type BirdTally } from "./tally-up";
-import { sectors } from "@/app/models/sectors";
-import { birds } from "@/app/models/birds";
+import { sectorsList } from "@/app/data/sectors-gazetteer";
+import { birdsList, type BirdMetadata } from "@/app/data/bird-taxonomy";
 import ExcelJS from "exceljs";
 
 function stringifyTally(tally: BirdTally, withComments: boolean) {
@@ -11,12 +11,12 @@ function stringifyTally(tally: BirdTally, withComments: boolean) {
 
 export function exportToEbird(
   worksheet: ExcelJS.Worksheet,
-  surveyData: SurveyData,
+  surveyData: SiteSurveyData,
   withComments: boolean,
 ) {
   const tally = tallyUp(surveyData, (sector) => true);
-  const startTime = surveyData.sectors[sectors[0].id].startTime as Date;
-  const endTime = surveyData.sectors[sectors[sectors.length - 1].id]
+  const startTime = surveyData.sectors[sectorsList[0].id].startTime as Date;
+  const endTime = surveyData.sectors[sectorsList[sectorsList.length - 1].id]
     .startTime as Date;
   // const duration = ((endTime?.getTime() - startTime?.getTime()) / 60000).toFixed(0) + 15;
   worksheet.addRow(["", "", "Waterworks NR"]);
@@ -38,7 +38,7 @@ export function exportToEbird(
     "Monthly survey for LVRPA, covering Waterworks reserve and adjacent field",
   ]);
 
-  birds.forEach((bird) => {
+  birdsList.forEach((bird) => {
     if (tally[bird.shortName].count > 0) {
       worksheet.addRow([
         bird.ebirdName,
@@ -48,7 +48,7 @@ export function exportToEbird(
     }
   });
   Object.entries(tally).forEach(([birdName, tally]) => {
-    if (!birds.find((bird) => bird.shortName === birdName)) {
+    if (!birdsList.find((bird: BirdMetadata) => bird.shortName === birdName)) {
       worksheet.addRow([birdName, "", stringifyTally(tally, withComments)]);
     }
   });

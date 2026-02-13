@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "prettier -w app && eslint",
     "type:check": "tsc --noEmit",
-    "qa": "npm run lint && npm run type:check"
+    "qa": "npm run lint && npm run type:check",
+    "type:check:open": "tsx scripts/open-type-errors.ts"
   },
   "dependencies": {
     "@react-aria/interactions": "^3.27.0",
@@ -35,6 +36,7 @@
     "eslint-config-next": "16.1.6",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

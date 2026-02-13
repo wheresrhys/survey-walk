@@ -1,5 +1,5 @@
 import { useSurveyDispatch } from "@/app/components/SurveyProvider";
-import { type SectorData } from "@/app/models/session";
+import { type SectorSurveyData } from "@/app/models/survey";
 import { useLongPress } from "@react-aria/interactions";
 import { useEffect, useState } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
@@ -11,7 +11,7 @@ export function SectorSurvey({
   title,
   startTime,
 }: {
-  sectorSurveyData: SectorData;
+  sectorSurveyData: SectorSurveyData;
   activeTab: string;
   title: string;
   startTime: Date | null;

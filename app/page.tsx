@@ -1,23 +1,24 @@
 "use client";
 
-import { sectors, type Sector } from "@/app/models/sectors";
-import { useState } from "react";
+import { sectorsList, type SectorMetadata } from "@/app/data/sectors-gazetteer";
+import { useState, useEffect } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
-// import { exportToExcel } from "@/app/lib/excel-export";
-import { useSurveyDispatch, useSurvey } from "@/app/components/SurveyProvider";
-import { useEffect } from "react";
+import { useSurvey } from "@/app/components/SurveyProvider";
 import Link from "next/link";
 import { exportToExcel } from "@/app/lib/excel-export";
+
 export default function Home() {
-  const [activeTab, setActiveTab] = useState(sectors[0].id);
+  const [activeTab, setActiveTab] = useState(sectorsList[0].id);
   const surveyData = useSurvey();
-  const activeSector = sectors.find(
-    (sector) => sector.id === activeTab,
-  ) as Sector;
-  const activeIndex = sectors.findIndex((sector) => sector.id === activeTab);
+  const activeSector = sectorsList.find(
+    (sector: SectorMetadata) => sector.id === activeTab,
+  ) as SectorMetadata;
+  const activeIndex = sectorsList.findIndex(
+    (sector: SectorMetadata) => sector.id === activeTab,
+  );
 
   useEffect(() => {
-    setActiveTab(sectors[0].id);
+    setActiveTab(sectorsList[0].id);
   }, [surveyData.createdTimestamp]);
 
   return (
@@ -29,7 +30,7 @@ export default function Home() {
         aria-orientation="horizontal"
         id="sector-tabs"
       >
-        {sectors.map((sector, index) => (
+        {sectorsList.map((sector: SectorMetadata) => (
           <button
             key={sector.id}
             type="button"

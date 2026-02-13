@@ -1,7 +1,7 @@
 import { Draft } from "immer";
-import { createSession, type SurveyData } from "@/app/models/session";
-import { type BreedingCode, type BroodAge } from "@/app/models/breeding";
-import { type Weather } from "@/app/models/session";
+import { createSurvey, type SiteSurveyData } from "@/app/models/survey";
+import { type BreedingCode, type BroodAge } from "@/app/models/survey";
+import { type WeatherData } from "@/app/models/survey";
 
 interface BaseAction {
   type: string;
@@ -13,7 +13,7 @@ interface BaseAction {
 export type SurveyAction =
   | ({
       type: "NEW_SESSION";
-      weather?: Weather;
+      weather?: WeatherData;
     } & BaseAction)
   | ({ type: "SET_SECTOR_START_TIME" } & BaseAction)
   | ({ type: "DECREASE_BIRD" } & BaseAction)
@@ -40,12 +40,12 @@ export type SurveyAction =
   | ({ type: "ADD_SPECIES" } & BaseAction);
 
 export function surveyReducer(
-  draft: Draft<SurveyData>,
+  draft: Draft<SiteSurveyData>,
   action: SurveyAction,
-): Draft<SurveyData> {
+): Draft<SiteSurveyData> {
   switch (action.type) {
     case "NEW_SESSION":
-      return createSession(action.weather);
+      return createSurvey(action.weather);
     case "SET_SECTOR_START_TIME":
       draft.sectors[action.sectorId].startTime = new Date();
       return draft;

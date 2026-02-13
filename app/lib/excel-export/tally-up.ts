@@ -1,7 +1,10 @@
-import { sectors } from "@/app/models/sectors";
-import type { SurveyData, BirdData } from "@/app/models/session";
-import type { Sector } from "@/app/models/sectors";
-import type { BreedingCode } from "@/app/models/breeding";
+import { sectors } from "@/app/data/sectors-gazetteer";
+import type {
+  SiteSurveyData,
+  BirdSurveyData,
+  BreedingCode,
+} from "@/app/models/survey";
+import type { SectorMetadata } from "@/app/data/sectors-gazetteer";
 
 export type BirdTally = {
   count: number;
@@ -11,7 +14,7 @@ export type BirdTally = {
 
 export type Tally = Record<string, BirdTally>;
 
-function stringifyBirdMetadata(birdData: BirdData): string {
+function stringifyBirdMetadata(birdData: BirdSurveyData): string {
   return [
     birdData.notes,
     ...birdData.broods.map(({ count, age }) => `${count} ${age}s`),
@@ -21,8 +24,8 @@ function stringifyBirdMetadata(birdData: BirdData): string {
 }
 
 export function tallyUp(
-  surveyData: SurveyData,
-  sectorFilter: (sector: Sector) => boolean,
+  surveyData: SiteSurveyData,
+  sectorFilter: (sector: SectorMetadata) => boolean,
 ): Tally {
   const sectorsToTally = sectors.filter(sectorFilter);
   const tally = sectorsToTally.reduce(
@@ -35,7 +38,7 @@ export function tallyUp(
       });
       return acc;
     },
-    {} as Record<string, BirdData[]>,
+    {} as Record<string, BirdSurveyData[]>,
   );
 
   const processedTally = {} as Record<

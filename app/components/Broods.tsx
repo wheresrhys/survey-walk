@@ -1,8 +1,11 @@
 "use client";
-import { type BroodAge, type BroodData } from "@/app/models/breeding";
+import {
+  type BroodAge,
+  type BroodSurveyData,
+  broodAges,
+} from "@/app/models/survey";
 import { type SurveyAction } from "@/app/lib/survey-reducer";
 import { type Dispatch } from "react";
-const broodAges = ["chick", "fledgling", "juv"];
 
 export type OmitFromUnion<T, K extends keyof T> = T extends unknown
   ? Omit<T, K>
@@ -13,7 +16,7 @@ function Brood({
   broodIndex,
   dispatch,
 }: {
-  brood: BroodData;
+  brood: BroodSurveyData;
   broodIndex: number;
   dispatch: (
     action: OmitFromUnion<SurveyAction, "sectorId" | "birdName">,
@@ -85,7 +88,7 @@ export function Broods({
   birdName,
   dispatch,
 }: {
-  broodsData: BroodData[];
+  broodsData: BroodSurveyData[];
   sectorId: string;
   birdName: string;
   dispatch: Dispatch<SurveyAction>;
