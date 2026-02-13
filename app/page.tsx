@@ -33,7 +33,7 @@ export default function Home() {
 
         <div className="mt-2 p-2">
           <div id={`tab-content`} role="tabpanel" aria-labelledby={`tab-button-${activeSector.id}`} className='block'>
-            <h2>{activeSector.name}</h2>
+            <h2 className="text-2xl font-bold">{activeSector.name}</h2>
             <SectorSurvey key={activeSector.id} birds={birds} surveyData={surveyData[activeSector.id]} activeTab={activeTab} />
             </div>
         </div>

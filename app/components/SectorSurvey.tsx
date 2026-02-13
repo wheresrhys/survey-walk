@@ -6,7 +6,7 @@ import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
 
 export function SectorSurvey({ birds, activeTab, surveyData }: { birds: Bird[], surveyData: Record<string, number>, activeTab: string}) {
   const dispatch = useSurveyDispatch();
-  const [focusedBird, setFocusedBird] = useState<string | null>(null);
+  const [focusedBird, setFocusedBird] = useState<string | null>('C Gull');
 
   const  { longPressProps } = useLongPress({
     accessibilityDescription: 'Long press to add additional info',
@@ -20,12 +20,11 @@ export function SectorSurvey({ birds, activeTab, surveyData }: { birds: Bird[], 
   }
 
   function increaseBirdCount(birdName: string) {
-    console.log(birdName);
     dispatch({ type: 'INCREASE_BIRD', birdName, sectorId: activeTab });
   }
   return (
 <>
-{focusedBird ? <BirdDetailPopup bird={focusedBird} sectorId={activeTab}/> : null}
+{focusedBird ? <BirdDetailPopup birdName={focusedBird} sectorId={activeTab} onClose={() => setFocusedBird(null)}/> : null}
       <div className="flex flex-wrap gap-1">
       {birds.map((bird) => (
         <div className="join flex-[0_0_calc(33.333%-0.333rem)]" key={bird.shortName}>
