@@ -18,6 +18,18 @@ export function SectorSurvey({
 }) {
   const dispatch = useSurveyDispatch();
   const [focusedBird, setFocusedBird] = useState<string | null>();
+  const [speciesToAdd, setSpeciesToAdd] = useState<string>("");
+  function changeSpeciesToAdd(event: React.ChangeEvent<HTMLInputElement>) {
+    setSpeciesToAdd(event.target.value);
+  }
+  function addSpecies() {
+    dispatch({
+      type: "ADD_SPECIES",
+      birdName: speciesToAdd,
+      sectorId: activeTab,
+    });
+    setSpeciesToAdd("");
+  }
 
   const { longPressProps } = useLongPress({
     accessibilityDescription: "Long press to add additional info",
@@ -33,6 +45,7 @@ export function SectorSurvey({
   function increaseBirdCount(birdName: string) {
     dispatch({ type: "INCREASE_BIRD", birdName, sectorId: activeTab });
   }
+
   return (
     <>
       {focusedBird ? (
@@ -43,28 +56,43 @@ export function SectorSurvey({
           birdData={surveyData[focusedBird]}
         />
       ) : null}
-      <div className="flex flex-wrap gap-1">
-        {birds.map((bird) => (
-          <div
-            className="join flex-[0_0_calc(33.333%-0.333rem)]"
-            key={bird.shortName}
-          >
+      <div className="flex flex-wrap gap-1 mb-2">
+        {Object.keys(surveyData).map((bird) => (
+          <div className="join flex-[0_0_calc(33.333%-0.333rem)]" key={bird}>
             <button
               className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
-              onClick={() => decreaseBirdCount(bird.shortName)}
+              onClick={() => decreaseBirdCount(bird)}
             >
-              {surveyData[bird.shortName].count}
+              {surveyData[bird].count}
             </button>
             <button
               className="btn btn-sm btn-soft btn-primary join-item flex-1 min-w-0"
-              value={bird.shortName}
+              value={bird}
               {...longPressProps}
-              onClick={() => increaseBirdCount(bird.shortName)}
+              onClick={() => increaseBirdCount(bird)}
             >
-              {bird.shortName}
+              {bird}
             </button>
           </div>
         ))}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <div className="input max-w-sm mb-2 w-3/4">
+          <input
+            type="text"
+            className="grow"
+            value={speciesToAdd}
+            placeholder="Add species"
+            onChange={changeSpeciesToAdd}
+          />
+        </div>
+        <button
+          className="btn btn-primary join-item flex-1 min-w-0"
+          onClick={addSpecies}
+          type="button"
+        >
+          Add species
+        </button>
       </div>
     </>
   );

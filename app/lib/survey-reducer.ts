@@ -33,7 +33,8 @@ export type SurveyAction =
       type: "UPDATE_BROOD_AGE";
       broodIndex: number;
       age: BroodAge;
-    } & BaseAction);
+    } & BaseAction)
+  | ({ type: "ADD_SPECIES" } & BaseAction);
 
 export function surveyReducer(
   draft: Draft<SurveyData>,
@@ -91,6 +92,23 @@ export function surveyReducer(
     case "UPDATE_BROOD_AGE":
       draft[action.sectorId][action.birdName].broods[action.broodIndex].age =
         action.age as BroodAge;
+      return draft;
+    case "ADD_SPECIES":
+      console.log(
+        "add species",
+        action.birdName,
+        action.sectorId,
+        Object.keys(draft),
+      );
+      Object.keys(draft).forEach((sectorId) => {
+        draft[sectorId][action.birdName] = {
+          count: sectorId === action.sectorId ? 1 : 0,
+          notes: "",
+          broods: [],
+          breedingCodes: [],
+        };
+      });
+      console.log("add species", draft[action.sectorId][action.birdName]);
       return draft;
     default:
       return draft;
