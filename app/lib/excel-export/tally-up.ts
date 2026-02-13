@@ -1,13 +1,12 @@
 import { sectors } from "@/app/models/sectors";
 import type { SurveyData, BirdData } from "@/app/models/session";
-import { Sector } from "@/app/models/sectors";
+import type { Sector } from "@/app/models/sectors";
+import type { BreedingCode } from "@/app/models/breeding";
 
-type BirdTallyInWaiting = {
+
+export type BirdTally = {
   count: number;
-  comments: string[];
-}
-type BirdTally = {
-  count: number;
+  breedingCodes: BreedingCode[];
   comments: string;
 }
 
@@ -29,13 +28,14 @@ export function tallyUp( surveyData: SurveyData, sectorFilter: (sector: Sector) 
     return acc;
   }, {} as Record<string, BirdData[]>);
 
-  const processedTally = {} as Record<string, { count: number, comments: string[] }>;
+  const processedTally = {} as Record<string, { count: number, comments: string[], breedingCodes: BreedingCode[] }>;
   Object.entries(tally).forEach(([bird, birdData]) => {
     processedTally[bird] = birdData.reduce((acc, birdData) => {
       acc.count += birdData.count;
       acc.comments.push(stringifyBirdMetadata(birdData));
+      acc.breedingCodes = [...acc.breedingCodes, ...birdData.breedingCodes]
       return acc;
-    }, { count: 0, comments: [] as string[] });
+    }, { count: 0, comments: [] as string[], breedingCodes: [] as BreedingCode[] });
   }) ;
 
   const finalTally = {} as Tally

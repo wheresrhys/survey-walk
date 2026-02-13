@@ -1,11 +1,11 @@
 import { SurveyData } from "@/app/models/session";
 import { format as formatDate } from "date-fns";
-import { tallyUp } from "./tally-up";
+import { tallyUp, type BirdTally } from "./tally-up";
 import { sectors } from "@/app/models/sectors";
 import {birds} from "@/app/models/birds";
 import ExcelJS from "exceljs";
 
-function stringifyTally ( tally, withComments) {
+function stringifyTally ( tally: BirdTally, withComments: boolean ) {
 	return `${tally.count}${tally.comments && withComments ? `|${tally.comments}` : ''}`
 }
 
@@ -35,7 +35,6 @@ export function exportToEbird(worksheet: ExcelJS.Worksheet, surveyData: SurveyDa
 		}
 	});
 	Object.entries(tally).forEach(([birdName, tally]) => {
-
 		if (!birds.find(bird => bird.shortName === birdName)) {
 			worksheet.addRow([birdName, '', stringifyTally(tally, withComments)]);
 		}
