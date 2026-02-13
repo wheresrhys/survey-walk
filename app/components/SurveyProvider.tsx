@@ -1,6 +1,5 @@
 "use client";
 import { createSession, type SurveyData } from "@/app/models/session";
-import { type BreedingCode, type BroodData } from "@/app/models/breeding";
 import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";

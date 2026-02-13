@@ -67,7 +67,11 @@ export default function Home() {
         <Link className="btn btn-primary" href="/new-session">
           New Session
         </Link>
-        <button type="button" className="btn btn-primary" onClick={() => exportToExcel(surveyData)}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => exportToExcel(surveyData)}
+        >
           Export to Excel
         </button>
       </div>
