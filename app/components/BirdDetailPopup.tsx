@@ -1,40 +1,100 @@
 import { Bird } from "@/app/models/birds";
-import {useSurveyDispatch, type BirdData} from '@/app/components/SurveyProvider';
+import {
+  useSurveyDispatch,
+  type BirdData,
+} from "@/app/components/SurveyProvider";
 import { breedingCodes, type BreedingCode } from "@/app/models/breeding";
 import { Broods } from "@/app/components/Broods";
-import { Modal } from '@/app/components/Modal';
-export function BirdDetailPopup({ birdName, birdData, sectorId, onClose }: { birdName: string, birdData: BirdData, sectorId: string, onClose: () => void }) {
+import { Modal } from "@/app/components/Modal";
+export function BirdDetailPopup({
+  birdName,
+  birdData,
+  sectorId,
+  onClose,
+}: {
+  birdName: string;
+  birdData: BirdData;
+  sectorId: string;
+  onClose: () => void;
+}) {
   const dispatch = useSurveyDispatch();
   function handleCountChange(event: React.ChangeEvent<HTMLInputElement>) {
-    dispatch({ type: 'UPDATE_BIRD_COUNT', sectorId, birdName, count: parseInt(event.target.value) });
+    dispatch({
+      type: "UPDATE_BIRD_COUNT",
+      sectorId,
+      birdName,
+      count: parseInt(event.target.value),
+    });
   }
   function handleNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    dispatch({ type: 'UPDATE_BIRD_NOTES', sectorId, birdName, notes: event.target.value });
+    dispatch({
+      type: "UPDATE_BIRD_NOTES",
+      sectorId,
+      birdName,
+      notes: event.target.value,
+    });
   }
   function toggleBreedingCode(event: React.ChangeEvent<HTMLInputElement>) {
-    dispatch({ type: 'UPDATE_BIRD_BREEDING_CODES', sectorId, birdName, breedingCode: event.target.id, checked: event.target.checked });
+    dispatch({
+      type: "UPDATE_BIRD_BREEDING_CODES",
+      sectorId,
+      birdName,
+      breedingCode: event.target.id,
+      checked: event.target.checked,
+    });
   }
-  return (<Modal title={birdName} onClose={onClose}>
+  return (
+    <Modal title={birdName} onClose={onClose}>
       <form>
         <div className="input max-w-sm">
-          <label className="label-text my-auto me-3 p-0" htmlFor="inlineLabelName">Count:</label>
-          <input type="number" className="grow" value={birdData.count} id="inlineLabelName" onChange={handleCountChange}/>
+          <label
+            className="label-text my-auto me-3 p-0"
+            htmlFor="inlineLabelName"
+          >
+            Count:
+          </label>
+          <input
+            type="number"
+            className="grow"
+            value={birdData.count}
+            id="inlineLabelName"
+            onChange={handleCountChange}
+          />
         </div>
-        <textarea className="textarea max-w-sm" aria-label="Textarea" value={birdData.notes} onChange={handleNotesChange}/>
+        <textarea
+          className="textarea max-w-sm"
+          aria-label="Textarea"
+          value={birdData.notes}
+          onChange={handleNotesChange}
+        />
 
-        <Broods broodsData={birdData.broods} sectorId={sectorId} birdName={birdName} dispatch={dispatch}/>
+        <Broods
+          broodsData={birdData.broods}
+          sectorId={sectorId}
+          birdName={birdName}
+          dispatch={dispatch}
+        />
         <div className="flex gap-4 overflow-x-auto">
-          {Object.entries(breedingCodes).map(([breedingCode, text]) => <div key={breedingCode} className="flex items-center gap-2">
-            <input type="checkbox" name="breeding-codes" className="checkbox checkbox-primary" id={breedingCode} checked={birdData.breedingCodes.includes(breedingCode as BreedingCode)} onChange={toggleBreedingCode}/>
-            <label className="label-text text-xs" htmlFor={breedingCode}> {text} </label>
-          </div>)}
+          {Object.entries(breedingCodes).map(([breedingCode, text]) => (
+            <div key={breedingCode} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="breeding-codes"
+                className="checkbox checkbox-primary"
+                id={breedingCode}
+                checked={birdData.breedingCodes.includes(
+                  breedingCode as BreedingCode,
+                )}
+                onChange={toggleBreedingCode}
+              />
+              <label className="label-text text-xs" htmlFor={breedingCode}>
+                {" "}
+                {text}{" "}
+              </label>
+            </div>
+          ))}
         </div>
-
       </form>
     </Modal>
-  )
+  );
 }
-
-
-
-

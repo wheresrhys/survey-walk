@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "prettier -w app && eslint",
+    "type:check": "tsc --noEmit",
+    "qa": "npm run lint && npm run type:check"
   },
   "dependencies": {
     "@react-aria/interactions": "^3.27.0",
@@ -16,6 +18,7 @@
     "react": "19.2.3",
     "react-aria-components": "^1.15.1",
     "react-dom": "19.2.3",
+    "tsc": "^2.0.4",
     "use-immer": "^0.11.0"
   },
   "devDependencies": {
@@ -27,6 +30,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

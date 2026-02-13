@@ -2,8 +2,9 @@ export type Bird = {
   shortName: string;
   lvrpaName: string;
   ebirdName: string;
-}
-export const birds: Bird[] = [["G Goose", "Greylag Goose", "Greylag Goose"],
+};
+export const birds: Bird[] = [
+  ["G Goose", "Greylag Goose", "Greylag Goose"],
   ["C Goose", "Canada Goose", "Canada Goose"],
   ["E Goose", "Egyptian Goose", "Egyptian Goose"],
   ["Swan", "Mute Swan", "Mute Swan"],
@@ -53,4 +54,9 @@ export const birds: Bird[] = [["G Goose", "Greylag Goose", "Greylag Goose"],
   ["Pie Wag", "Pied Wagtail", "Pied Wagtail"],
   ["Chaffinch", "Chaffinch", "Common Chaffinch"],
   ["Gr-finch", "Greenfinch", "European Greenfinch"],
-  ["Goldfinch", "Goldfinch", "European Goldfinch"]].map(([shortName, lvrpaName, ebirdName]) => ({shortName, lvrpaName, ebirdName}));
+  ["Goldfinch", "Goldfinch", "European Goldfinch"],
+].map(([shortName, lvrpaName, ebirdName]) => ({
+  shortName,
+  lvrpaName,
+  ebirdName,
+}));
