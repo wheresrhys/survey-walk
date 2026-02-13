@@ -1,30 +1,50 @@
 'use client'
 import { type BroodData } from "@/app/models/breeding";
-import { useState } from "react";
 
-function Brood({ brood, index, onRemove }: { brood: BroodData, index: number, onRemove: (index: number) => void }) {
+const broodAges = ['chick', 'fledgling', 'juv'];
+
+function Brood({ brood, broodIndex, dispatch }: { brood: BroodData, broodIndex: number, onRemove: (index: number) => void, dispatch: Dispatch }) {
+  function handleCountChange(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: 'UPDATE_BROOD_COUNT', broodIndex, count: parseInt(event.target.value) });
+  }
+  function removeBrood() {
+    dispatch({ type: 'REMOVE_BROOD', broodIndex });
+  }
+  function handleBroodCountChange(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: 'UPDATE_BROOD_COUNT', broodIndex, count: parseInt(event.target.value) });
+  }
+
+  function handleBroodAgeChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    dispatch({ type: 'UPDATE_BROOD_AGE', broodIndex, age: event.target.value as BroodAge });
+  }
   return (
     <div>
-      {brood.count} {brood.age}
-      <button onClick={() => onRemove(index)}>Remove Brood</button>
+      <div className="input max-w-sm">
+        <label className="label-text my-auto me-3 p-0" htmlFor="inlineLabelName">Count:</label>
+        <input type="number" className="grow" value={brood.count} id="inlineLabelName" onChange={handleBroodCountChange} />
+      </div>
+      <select className="select max-w-sm rounded-full" aria-label="Brood Age" value={brood.age} onChange={handleBroodAgeChange}>
+        <option disabled>Brood age</option>
+        {broodAges.map((age) => <option key={age} value={age}>{age}</option>)}
+      </select>
+      <button type="button" className="btn btn-soft btn-secondary btn-xs" onClick={removeBrood}>Remove Brood</button>
     </div>
   )
 }
 
-export function Broods({ broodsData, sectorId, birdName }: { broodsData: BroodData[], sectorId: string, birdName: string }) {
-  const [localBroodsData, setLocalBroodsData] = useState<BroodData[]>(broodsData);
+export function Broods({ broodsData, sectorId, birdName, dispatch }: { broodsData: BroodData[], sectorId: string, birdName: string, dispatch: Dispatch }) {
   function addBrood() {
-    setLocalBroodsData([...localBroodsData, { count: 1, age: null }]);
+    dispatch({ type: 'ADD_BROOD', sectorId, birdName });
   }
 
-  function removeBrood(index: number) {
-    setLocalBroodsData((oldDraft: BroodData[]) => oldDraft.splice(index, 1));
+  function broodDispatch(action: Action) {
+    dispatch({...action, sectorId, birdName});
   }
 
   return (
     <div>
-      {localBroodsData.map((brood, index) => <Brood brood={brood} key={index} index={index} onRemove={removeBrood}/>)}
-      <button onClick={addBrood}>Add Brood</button>
+      {broodsData.map((brood, index) => <Brood brood={brood} key={index} broodIndex={index} dispatch={broodDispatch}/>)}
+      <button onClick={addBrood} className="btn btn-soft btn-secondary btn-sm" type="button">Add Brood</button>
     </div>
   )
 }
