@@ -63,7 +63,7 @@ function Brood({
         value={brood.age || ""}
         onChange={handleBroodAgeChange}
       >
-        <option disabled>Brood age</option>
+        <option value="">Brood age</option>
         {broodAges.map((age) => (
           <option key={age} value={age}>
             {age}

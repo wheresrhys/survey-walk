@@ -29,7 +29,6 @@ export function exportToLvrpa(
   surveyData: SiteSurveyData,
   parentArea: "Fields" | "Waterworks",
 ) {
-  console.log(surveyData.weather);
   const sectorsToTally = sectorsList.filter(
     (sector) => sector.parentArea === parentArea,
   );

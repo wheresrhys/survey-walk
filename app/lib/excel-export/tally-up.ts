@@ -1,4 +1,4 @@
-import { sectors } from "@/app/data/sectors-gazetteer";
+import { sectorsList } from "@/app/data/sectors-gazetteer";
 import type {
   SiteSurveyData,
   BirdSurveyData,
@@ -17,7 +17,9 @@ export type Tally = Record<string, BirdTally>;
 function stringifyBirdMetadata(birdData: BirdSurveyData): string {
   return [
     birdData.notes,
-    ...birdData.broods.map(({ count, age }) => `${count} ${age}s`),
+    ...birdData.broods.map(
+      ({ count, age }) => `${count}${age ? ` ${age}s` : ""}`,
+    ),
   ]
     .filter((record) => Boolean(record))
     .join(", ");
@@ -27,7 +29,7 @@ export function tallyUp(
   surveyData: SiteSurveyData,
   sectorFilter: (sector: SectorMetadata) => boolean,
 ): Tally {
-  const sectorsToTally = sectors.filter(sectorFilter);
+  const sectorsToTally = sectorsList.filter(sectorFilter);
   const tally = sectorsToTally.reduce(
     (acc, sector) => {
       const sectorData = surveyData.sectors[sector.id];
