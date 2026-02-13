@@ -20,8 +20,8 @@ export function Modal({
         role="dialog"
         tabIndex={-1}
       >
-        <div className="modal-dialog">
-          <div className="modal-content">
+        <div className="modal-dialog max-w-none">
+          <div className="modal-content h-full max-h-none justify-start">
             <div className="modal-header">
               <h3 className="modal-title">{title}</h3>
               <button

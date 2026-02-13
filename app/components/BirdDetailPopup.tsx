@@ -46,7 +46,7 @@ export function BirdDetailPopup({
   return (
     <Modal title={birdName} onClose={onClose}>
       <form>
-        <div className="input max-w-sm">
+        <div className="input max-w-sm mb-2 w-1/2">
           <label
             className="label-text my-auto me-3 p-0"
             htmlFor="inlineLabelName"
@@ -62,8 +62,9 @@ export function BirdDetailPopup({
           />
         </div>
         <textarea
-          className="textarea max-w-sm"
+          className="textarea max-w-sm mb-2"
           aria-label="Textarea"
+          placeholder="Notes"
           value={birdData.notes}
           onChange={handleNotesChange}
         />
@@ -74,7 +75,7 @@ export function BirdDetailPopup({
           birdName={birdName}
           dispatch={dispatch}
         />
-        <div className="flex gap-4 overflow-x-auto">
+        <div className="flex gap-4 flex-wrap">
           {Object.entries(breedingCodes).map(([breedingCode, text]) => (
             <div key={breedingCode} className="flex items-center gap-2">
               <input

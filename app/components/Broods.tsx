@@ -38,8 +38,8 @@ function Brood({
     });
   }
   return (
-    <div>
-      <div className="input max-w-sm">
+    <div className="flex gap-2 mb-2 items-center">
+      <div className="input max-w-sm w-1/3">
         <label
           className="label-text my-auto me-3 p-0"
           htmlFor="inlineLabelName"
@@ -55,7 +55,7 @@ function Brood({
         />
       </div>
       <select
-        className="select max-w-sm rounded-full"
+        className="select max-w-sm rounded-full w-1/3"
         aria-label="Brood Age"
         value={brood.age || ""}
         onChange={handleBroodAgeChange}
@@ -67,12 +67,13 @@ function Brood({
           </option>
         ))}
       </select>
+
       <button
         type="button"
-        className="btn btn-soft btn-secondary btn-xs"
+        className="btn btn-soft btn-primary btn-sm"
         onClick={removeBrood}
       >
-        Remove Brood
+        Remove
       </button>
     </div>
   );
@@ -100,7 +101,7 @@ export function Broods({
   }
 
   return (
-    <div>
+    <div className="mb-4">
       {broodsData.map((brood, index) => (
         <Brood
           brood={brood}
@@ -109,13 +110,15 @@ export function Broods({
           dispatch={broodDispatch}
         />
       ))}
-      <button
-        onClick={addBrood}
-        className="btn btn-soft btn-secondary btn-sm"
-        type="button"
-      >
-        Add Brood
-      </button>
+      <div className="flex justify-end">
+        <button
+          onClick={addBrood}
+          className="btn btn-primary btn-sm"
+          type="button"
+        >
+          Add Brood
+        </button>
+      </div>
     </div>
   );
 }

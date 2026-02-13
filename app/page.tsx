@@ -34,6 +34,7 @@ export default function Home() {
   const activeSector = sectors.find(
     (sector) => sector.id === activeTab,
   ) as Sector;
+  const activeIndex = sectors.findIndex((sector) => sector.id === activeTab);
 
   return (
     <div className="">
@@ -69,7 +70,9 @@ export default function Home() {
             aria-labelledby={`tab-button-${activeSector.id}`}
             className="block"
           >
-            <h2 className="text-2xl font-bold">{activeSector.name}</h2>
+            <h2 className="text-2xl font-bold">
+              {activeIndex + 1}: {activeSector.name}
+            </h2>
             <SectorSurvey
               key={activeSector.id}
               birds={birds}

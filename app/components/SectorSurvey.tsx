@@ -17,7 +17,7 @@ export function SectorSurvey({
   activeTab: string;
 }) {
   const dispatch = useSurveyDispatch();
-  const [focusedBird, setFocusedBird] = useState<string | null>("C Gull");
+  const [focusedBird, setFocusedBird] = useState<string | null>();
 
   const { longPressProps } = useLongPress({
     accessibilityDescription: "Long press to add additional info",
