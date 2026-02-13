@@ -35,7 +35,7 @@ export default function SurveyProvider({
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     if (storedSession && storedSession.schemaVersion !== SCHEMA_VERSION) {
-      dispatch({ type: "CLEAR_SESSION", sectorId: 'ignore', birdName: 'ignore' });
+      dispatch({ type: "NEW_SESSION", sectorId: 'ignore', birdName: 'ignore' });
     }
     setIsMounted(true);
   }, []);

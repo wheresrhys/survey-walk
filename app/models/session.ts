@@ -27,6 +27,7 @@ export type Weather = {
 export type SurveyData = {
   sectors: Record<string, SectorData>;
   weather: Weather;
+  createdTimestamp: number;
 };
 const defaultWeather: Weather = {
   temperature: 0,
@@ -40,6 +41,7 @@ const defaultWeather: Weather = {
 export function createSession(weather: Weather = defaultWeather): SurveyData {
   return {
     weather: weather,
+    createdTimestamp: Date.now(),
     sectors: sectors.reduce(
       (acc, sector) => {
         acc[sector.id] = {

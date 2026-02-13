@@ -1,31 +1,23 @@
 "use client";
 
 import { sectors, type Sector } from "@/app/models/sectors";
-import { birds } from "@/app/models/birds";
-import { type SectorData } from "@/app/models/session";
 import { useState } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
 // import { exportToExcel } from "@/app/lib/excel-export";
 import { useSurveyDispatch, useSurvey } from "@/app/components/SurveyProvider";
-
+import { useEffect } from "react";
+import Link from "next/link";
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectors[0].id);
   const surveyData = useSurvey();
-  const dispatch = useSurveyDispatch();
   const activeSector = sectors.find(
     (sector) => sector.id === activeTab,
   ) as Sector;
   const activeIndex = sectors.findIndex((sector) => sector.id === activeTab);
 
-  function clearSession() {
-    if (confirm("Are you sure you want to clear the session?")) {
-      if (confirm("Really really sure????")) {
-        if (confirm("On your own head be it!!")) {
-          dispatch({ type: "CLEAR_SESSION", sectorId: null, birdName: null });
-        }
-      }
-    }
-  }
+  useEffect(() => {
+    setActiveTab(sectors[0].id);
+  }, [surveyData.createdTimestamp]);
 
   return (
     <main className="">
@@ -72,13 +64,12 @@ export default function Home() {
       </div>
 
       <div className="flex items-center justify-center">
-        <button
-          type="button"
+        <Link
           className="btn btn-primary"
-          onClick={clearSession}
+          href="/new-session"
         >
-          Clear Session
-        </button>
+          New Session
+        </Link>
       </div>
     </main>
   );

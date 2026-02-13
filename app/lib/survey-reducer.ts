@@ -11,7 +11,7 @@ interface BaseAction {
 // Individual action types using discriminated unions
 export type SurveyAction =
   | ({
-      type: "CLEAR_SESSION";
+      type: "NEW_SESSION";
     } & BaseAction)
   | ({ type: "DECREASE_BIRD" } & BaseAction)
   | ({ type: "INCREASE_BIRD" } & BaseAction)
@@ -41,7 +41,7 @@ export function surveyReducer(
   action: SurveyAction,
 ): Draft<SurveyData> {
   switch (action.type) {
-    case "CLEAR_SESSION":
+    case "NEW_SESSION":
       return createSession();
     case "DECREASE_BIRD":
       draft.sectors[action.sectorId].birds[action.birdName].count = Math.max(
@@ -100,13 +100,7 @@ export function surveyReducer(
       ].age = action.age as BroodAge;
       return draft;
     case "ADD_SPECIES":
-      console.log(
-        "add species",
-        action.birdName,
-        action.sectorId,
-        Object.keys(draft),
-      );
-      Object.keys(draft).forEach((sectorId) => {
+      Object.keys(draft.sectors).forEach((sectorId) => {
         draft.sectors[sectorId].birds[action.birdName] = {
           count: sectorId === action.sectorId ? 1 : 0,
           notes: "",
@@ -114,10 +108,6 @@ export function surveyReducer(
           breedingCodes: [],
         };
       });
-      console.log(
-        "add species",
-        draft.sectors[action.sectorId].birds[action.birdName],
-      );
       return draft;
     default:
       return draft;
