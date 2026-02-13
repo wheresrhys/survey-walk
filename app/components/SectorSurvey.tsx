@@ -1,19 +1,34 @@
 import { useSurveyDispatch } from "@/app/components/SurveyProvider";
 import { type SectorData } from "@/app/models/session";
 import { useLongPress } from "@react-aria/interactions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
+import { format as formatDate } from "date-fns";
 
 export function SectorSurvey({
   activeTab,
   sectorSurveyData,
+  title,
+  startTime,
 }: {
   sectorSurveyData: SectorData;
   activeTab: string;
+  title: string;
+  startTime: Date | null;
 }) {
   const dispatch = useSurveyDispatch();
   const [focusedBird, setFocusedBird] = useState<string | null>();
   const [speciesToAdd, setSpeciesToAdd] = useState<string>("");
+
+  useEffect(() => {
+    if (sectorSurveyData.startTime === null) {
+      dispatch({
+        type: "SET_SECTOR_START_TIME",
+        sectorId: activeTab,
+        birdName: null,
+      });
+    }
+  }, [activeTab]);
   function changeSpeciesToAdd(event: React.ChangeEvent<HTMLInputElement>) {
     setSpeciesToAdd(event.target.value);
   }
@@ -43,6 +58,12 @@ export function SectorSurvey({
 
   return (
     <>
+      <h2 className="text-2xl font-bold">
+        {title}{" "}
+        {startTime ? (
+          <small>(started {formatDate(startTime, "HH:mm")})</small>
+        ) : null}
+      </h2>
       {focusedBird ? (
         <BirdDetailPopup
           birdName={focusedBird}

@@ -18,7 +18,7 @@ export function useSurveyDispatch() {
   return useContext(SurveyDispatchContext);
 }
 
-const SCHEMA_VERSION = 1
+const SCHEMA_VERSION = 1;
 
 export default function SurveyProvider({
   children,
@@ -26,16 +26,15 @@ export default function SurveyProvider({
   children: React.ReactNode;
 }) {
   const defaultSession = createSession();
-  const [storedSession, setStoredSession] = useLocalStorage<{schemaVersion: number, surveyData: SurveyData} | null>(
-    "survey-data",
-    null,
-  );
-
+  const [storedSession, setStoredSession] = useLocalStorage<{
+    schemaVersion: number;
+    surveyData: SurveyData;
+  } | null>("survey-data", null);
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     if (storedSession && storedSession.schemaVersion !== SCHEMA_VERSION) {
-      dispatch({ type: "NEW_SESSION", sectorId: 'ignore', birdName: 'ignore' });
+      dispatch({ type: "NEW_SESSION", sectorId: "ignore", birdName: "ignore" });
     }
     setIsMounted(true);
   }, []);
@@ -45,8 +44,6 @@ export default function SurveyProvider({
     surveyReducer,
     storedSession?.surveyData || defaultSession,
   );
-
-
 
   // Sync surveyData changes back to localStorage
   useEffect(() => {

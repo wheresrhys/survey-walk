@@ -52,22 +52,18 @@ export default function Home() {
           aria-labelledby={`tab-button-${activeSector.id}`}
           className="block"
         >
-          <h2 className="text-2xl font-bold">
-            {activeIndex + 1}: {activeSector.name}
-          </h2>
           <SectorSurvey
             key={activeSector.id}
             sectorSurveyData={surveyData.sectors[activeSector.id]}
             activeTab={activeTab}
+            startTime={surveyData.sectors[activeSector.id].startTime}
+            title={`${activeIndex + 1}: ${activeSector.name}`}
           />
         </div>
       </div>
 
       <div className="flex items-center justify-center">
-        <Link
-          className="btn btn-primary"
-          href="/new-session"
-        >
+        <Link className="btn btn-primary" href="/new-session">
           New Session
         </Link>
       </div>

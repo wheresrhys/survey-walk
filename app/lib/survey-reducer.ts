@@ -13,6 +13,7 @@ export type SurveyAction =
   | ({
       type: "NEW_SESSION";
     } & BaseAction)
+  | ({ type: "SET_SECTOR_START_TIME" } & BaseAction)
   | ({ type: "DECREASE_BIRD" } & BaseAction)
   | ({ type: "INCREASE_BIRD" } & BaseAction)
   | ({ type: "UPDATE_BIRD_COUNT"; count: number } & BaseAction)
@@ -43,6 +44,9 @@ export function surveyReducer(
   switch (action.type) {
     case "NEW_SESSION":
       return createSession();
+    case "SET_SECTOR_START_TIME":
+      draft.sectors[action.sectorId].startTime = new Date();
+      return draft;
     case "DECREASE_BIRD":
       draft.sectors[action.sectorId].birds[action.birdName].count = Math.max(
         0,

@@ -1,6 +1,4 @@
-import {
-  useSurveyDispatch,
-} from "@/app/components/SurveyProvider";
+import { useSurveyDispatch } from "@/app/components/SurveyProvider";
 import { breedingCodes, type BreedingCode } from "@/app/models/breeding";
 import { Broods } from "@/app/components/Broods";
 import { Modal } from "@/app/components/Modal";

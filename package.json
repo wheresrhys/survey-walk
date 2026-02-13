@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-aria/interactions": "^3.27.0",
+    "date-fns": "^4.1.0",
     "exceljs": "^4.4.0",
     "flyonui": "^2.4.1",
     "immer": "^11.1.3",
