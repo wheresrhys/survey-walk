@@ -5,29 +5,8 @@ import { birds, type Bird } from "@/app/models/birds";
 import { useState } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
 
-import {
-  useSurvey,
-  useSurveyDispatch,
-  type SectorData,
-} from "@/app/components/SurveyProvider";
-function createSession(
-  birds: Bird[],
-  sectors: Sector[],
-): Record<string, Record<string, number>> {
-  return sectors.reduce(
-    (acc, sector) => {
-      acc[sector.id] = birds.reduce(
-        (acc, bird) => {
-          acc[bird.shortName] = 0;
-          return acc as Record<string, number>;
-        },
-        {} as Record<string, number>,
-      );
-      return acc as Record<string, Record<string, number>>;
-    },
-    {} as Record<string, Record<string, number>>,
-  );
-}
+import { useSurvey, type SectorData } from "@/app/components/SurveyProvider";
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectors[0].id);
   const surveyData = useSurvey();
