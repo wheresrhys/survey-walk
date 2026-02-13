@@ -56,7 +56,6 @@ export function surveyReducer(
     case "INCREASE_BIRD":
       draft.sectors[action.sectorId].birds[action.birdName].count =
         draft.sectors[action.sectorId].birds[action.birdName].count + 1;
-      console.log("increase", draft);
       return draft;
     case "UPDATE_BIRD_COUNT":
       draft.sectors[action.sectorId].birds[action.birdName].count =
@@ -104,6 +103,9 @@ export function surveyReducer(
       ].age = action.age as BroodAge;
       return draft;
     case "ADD_SPECIES":
+      if (!action.birdName) {
+        return draft;
+      }
       Object.keys(draft.sectors).forEach((sectorId) => {
         draft.sectors[sectorId].birds[action.birdName] = {
           count: sectorId === action.sectorId ? 1 : 0,
