@@ -7,6 +7,7 @@ import { SectorSurvey } from "@/app/components/SectorSurvey";
 import { useSurveyDispatch, useSurvey } from "@/app/components/SurveyProvider";
 import { useEffect } from "react";
 import Link from "next/link";
+import { exportToExcel } from "@/app/lib/excel-export";
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectors[0].id);
   const surveyData = useSurvey();
@@ -62,10 +63,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-2">
         <Link className="btn btn-primary" href="/new-session">
           New Session
         </Link>
+        <button type="button" className="btn btn-primary" onClick={() => exportToExcel(surveyData)}>
+          Export to Excel
+        </button>
       </div>
     </main>
   );
