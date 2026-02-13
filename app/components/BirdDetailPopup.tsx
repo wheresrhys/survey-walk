@@ -1,32 +1,56 @@
 import { Bird } from "@/app/models/birds";
-import {useSurvey} from '@/app/components/SurveyProvider';
-export function BirdDetailPopup({ birdName, sectorId, onClose }: { birdName: string, sectorId: string, onClose: () => void }) {
-  const surveyData = useSurvey();
-  const birdData = surveyData[sectorId][birdName];
-  return (<>
-    <div data-overlay-backdrop-template="" className="z-79 overlay-backdrop transition duration-300 fixed inset-0 bg-base-300/60 overflow-y-auto "></div>
-    <div id="basic-modal" className="overlay modal overlay-open:opacity-100 overlay-open:duration-300 z-80 open opened" role="dialog" tabIndex={-1}>
-
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h3 className="modal-title">Dialog Title</h3>
-        <button type="button" className="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#basic-modal" onClick={onClose}>
-          <span className="icon-[tabler--x] size-4"></span>
-        </button>
-      </div>
+import {useSurveyDispatch, type BirdData} from '@/app/components/SurveyProvider';
+import { breedingCodes, type BreedingCode } from "@/app/models/breeding";
+import { Broods } from "@/app/components/Broods";
+import { Modal } from '@/app/components/Modal';
+export function BirdDetailPopup({ birdName, birdData, sectorId, onClose }: { birdName: string, birdData: BirdData, sectorId: string, onClose: () => void }) {
+  const dispatch = useSurveyDispatch();
+  function handleCountChange(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: 'UPDATE_BIRD_COUNT', sectorId, birdName, count: parseInt(event.target.value) });
+  }
+  function handleNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    dispatch({ type: 'UPDATE_BIRD_NOTES', sectorId, birdName, notes: event.target.value });
+  }
+  function toggleBreedingCode(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: 'UPDATE_BIRD_BREEDING_CODES', sectorId, birdName, breedingCode: event.target.id, checked: event.target.checked });
+  }
+  return (<Modal title={birdName} onClose={onClose}>
       <div className="modal-body">
          <h1>{birdName}</h1>
-      <p>count: {birdData}</p>
+      <form>
+        <div className="input max-w-sm">
+          <label className="label-text my-auto me-3 p-0" htmlFor="inlineLabelName">Count:</label>
+          <input type="number" className="grow" value={birdData.count} id="inlineLabelName" onChange={handleCountChange}/>
+        </div>
+        <textarea className="textarea max-w-sm" aria-label="Textarea" value={birdData.notes} onChange={handleNotesChange}/>
+
+        <Broods broodsData={birdData.broods} sectorId={sectorId} birdName={birdName}/>
+        <div className="flex gap-4 overflow-x-auto">
+          {Object.entries(breedingCodes).map(([breedingCode, text]) => <div key={breedingCode} className="flex items-center gap-2">
+            <input type="checkbox" name="breeding-codes" className="checkbox checkbox-primary" id={breedingCode} checked={birdData.breedingCodes.includes(breedingCode as BreedingCode)} onChange={toggleBreedingCode}/>
+            <label className="label-text text-xs" htmlFor={breedingCode}> {text} </label>
+          </div>)}
+        </div>
+        {/* <div className="max-w-32" data-input-number>
+          <label className="label-text  my-auto " htmlFor="number-input-mini"></label>
+          <div className="input items-center">
+            <button type="button" className="btn btn-primary btn-soft size-5.5 min-h-0 rounded-sm p-0" aria-label="Decrement button" data-input-number-decrement >
+              <span className="icon-[tabler--minus] size-3.5 shrink-0"></span>
+            </button>
+            <input className="text-center" type="number" defaultValue={birdData.count} aria-label="Mini stacked buttons" data-input-number-input id="number-input-mini" />
+            <button type="button" className="btn btn-primary btn-soft size-5.5 min-h-0 rounded-sm p-0" aria-label="Increment button" data-input-number-increment >
+              <span className="icon-[tabler--plus] size-3.5 shrink-0"></span>
+            </button>
+          </div>
+        </div> */}
+
+      </form>
+
       </div>
       <div className="modal-footer">
-            <button type="button" className="btn btn-soft btn-secondary" data-overlay="#basic-modal" onClick={onClose}>Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
+      <button type="button" className="btn btn-soft btn-secondary" data-overlay="#basic-modal" onClick={onClose}>Close</button>
       </div>
-    </div>
-  </div>
-</div>
-  </>
+    </Modal>
   )
 }
 
