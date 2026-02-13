@@ -1,7 +1,7 @@
 "use client";
 
 import { sectorsList, type SectorMetadata } from "@/app/data/sectors-gazetteer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
 import { useSurvey } from "@/app/components/SurveyProvider";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { exportToExcel } from "@/app/lib/excel-export";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectorsList[0].id);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
   const surveyData = useSurvey();
   const activeSector = sectorsList.find(
     (sector: SectorMetadata) => sector.id === activeTab,
@@ -21,10 +22,21 @@ export default function Home() {
     setActiveTab(sectorsList[0].id);
   }, [surveyData.createdTimestamp]);
 
+  // useEffect
+
+  useEffect(() => {
+    activeTabRef.current?.parentElement?.scrollTo({
+      left:
+        activeTabRef.current?.offsetLeft +
+        activeTabRef.current?.offsetWidth / 2 -
+        window.innerWidth / 2,
+      behavior: "smooth",
+    });
+  }, [activeTab, activeTabRef.current]);
   return (
     <main className="">
       <nav
-        className="tabs tabs-bordered overflow-x-auto"
+        className="tabs tabs-bordered overflow-x-auto gap-2"
         aria-label="Tabs"
         role="tablist"
         aria-orientation="horizontal"
@@ -33,8 +45,9 @@ export default function Home() {
         {sectorsList.map((sector: SectorMetadata) => (
           <button
             key={sector.id}
+            ref={activeTab === sector.id ? activeTabRef : null}
             type="button"
-            className={`tab active-tab:tab-active ${activeTab === sector.id ? "active" : ""}`}
+            className={`py-4 h-auto tab active-tab:tab-active ${activeTab === sector.id ? "active" : ""} text-nowrap`}
             id={`tab-button-${sector.id}`}
             data-tab={`#tab-content`}
             aria-controls={`#tab-content`}
