@@ -5,6 +5,13 @@ export function exportToExcel(surveyData: SurveyData) {
   const workbook = new ExcelJS.Workbook();
   // exportToEbird(workbook.addWorksheet("Ebird"), surveyData);
   exportToEbird({
-    addRow: (...args) => console.log(args.join(", "))
-  }, surveyData);
+    addRow: (...args) => {
+      console.log(args.join(", "))
+    }
+  }, surveyData, true);
+  exportToEbird({
+    addRow: (...args) => {
+      console.log(args.join(", "))
+    }
+  }, surveyData, false);
 }

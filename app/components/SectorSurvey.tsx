@@ -92,7 +92,7 @@ export function SectorSurvey({
           </div>
         ))}
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex gap-2">
         <div className="input max-w-sm mb-2 w-3/4">
           <input
             type="text"
@@ -103,7 +103,7 @@ export function SectorSurvey({
           />
         </div>
         <button
-          className="btn btn-primary join-item flex-1 min-w-0"
+          className="btn btn-primary join-item"
           onClick={addSpecies}
           type="button"
         >
