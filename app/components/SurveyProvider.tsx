@@ -27,30 +27,39 @@ export function useSurveyDispatch() {
   return useContext(SurveyDispatchContext);
 }
 
+const SCHEMA_VERSION = 1
+
 export default function SurveyProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const defaultSession = createSession();
-  const [storedSession, setStoredSession] = useLocalStorage<SurveyData | null>(
+  const [storedSession, setStoredSession] = useLocalStorage<{schemaVersion: number, surveyData: SurveyData} | null>(
     "survey-data",
     null,
   );
+
+
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
+    if (storedSession && storedSession.schemaVersion !== SCHEMA_VERSION) {
+      dispatch({ type: "CLEAR_SESSION", sectorId: 'ignore', birdName: 'ignore' });
+    }
     setIsMounted(true);
   }, []);
 
   // Initialize state with stored session or default
   const [surveyData, dispatch] = useImmerReducer(
     surveyReducer,
-    storedSession || defaultSession,
+    storedSession?.surveyData || defaultSession,
   );
+
+
 
   // Sync surveyData changes back to localStorage
   useEffect(() => {
-    setStoredSession(surveyData);
+    setStoredSession({ schemaVersion: SCHEMA_VERSION, surveyData: surveyData });
   }, [surveyData, setStoredSession]);
 
   if (!isMounted) {
