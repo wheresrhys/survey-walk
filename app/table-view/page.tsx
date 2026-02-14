@@ -12,10 +12,11 @@ export default function TableView() {
         Back to survey
       </Link>
       <div className="w-full overflow-x-auto mt-4">
-        <table className="table">
+        <table className="table table-striped table-xs">
           <thead>
             <tr>
               <th>Species</th>
+              <th>Total</th>
               {sectorsList.map(({ id, name }) => (
                 <th key={id}>{name}</th>
               ))}
@@ -26,6 +27,7 @@ export default function TableView() {
               birdTally.count > 0 ? (
                 <tr key={birdName}>
                   <th>{birdName}</th>
+                  <td>{birdTally.count}</td>
                   {sectorsList.map(({ id }) => (
                     <td key={id}>
                       {surveyData.sectors[id].birds[birdName].count}

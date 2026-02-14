@@ -26,7 +26,7 @@ export const sectorsList: SectorMetadata[] = [
   },
   {
     id: "central-circle",
-    name: "Central Circle",
+    name: "Circle",
     parentArea: "Waterworks",
     hasWater: true,
   },
