@@ -91,12 +91,7 @@ export function exportToLvrpa(
   worksheet.addRow([
     "Total",
     "Species",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
+    ...sectorsToTally.map((sector, index) => index + 1),
     "Notes",
     "Breeding code",
   ]);

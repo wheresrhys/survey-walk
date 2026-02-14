@@ -74,7 +74,10 @@ export function SectorSurvey({
       ) : null}
       <div className="flex flex-wrap gap-1 mb-2">
         {Object.keys(sectorSurveyData.birds).map((bird) => (
-          <div className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1" key={bird}>
+          <div
+            className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1"
+            key={bird}
+          >
             <button
               className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
               onClick={() => decreaseBirdCount(bird)}
