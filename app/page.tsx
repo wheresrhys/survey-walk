@@ -19,10 +19,9 @@ export default function Home() {
   );
 
   useEffect(() => {
+    // @eslint-ignore react-hooks/set-state-in-effect
     setActiveTab(sectorsList[0].id);
-  }, [surveyData.createdTimestamp]);
-
-  // useEffect
+  }, [surveyData.createdTime]);
 
   useEffect(() => {
     activeTabRef.current?.parentElement?.scrollTo({
@@ -32,7 +31,7 @@ export default function Home() {
         window.innerWidth / 2,
       behavior: "smooth",
     });
-  }, [activeTab, activeTabRef.current]);
+  }, [activeTab]);
   return (
     <main className="light">
       <nav
@@ -99,7 +98,7 @@ export default function Home() {
         >
           Export Ebird
         </button>
-        <Link className="btn btn-primary" href="/new-session">
+        <Link className="btn btn-primary" href="/new-survey">
           Start New Survey
         </Link>
       </div>

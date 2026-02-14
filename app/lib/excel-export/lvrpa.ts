@@ -64,14 +64,14 @@ export function exportToLvrpa(
   ]);
   worksheet.addRow([
     "",
-    formatDate(surveyData.createdTimestamp, "dd MMM yyyy"),
+    formatDate(surveyData.createdTime, "dd MMM yyyy"),
     formatDate(
       surveyData.sectors[sectorsToTally[0].id].startTime as Date,
       "HH:mm",
     ),
     formatDate(
       surveyData.sectors[sectorsToTally[sectorsToTally.length - 1].id]
-        .startTime as Date,
+        .lastEditTime as Date,
       "HH:mm",
     ),
     surveyData.weather.temperature,
@@ -101,7 +101,7 @@ export function exportToLvrpa(
       worksheet.addRow(createTallyRow(tally, bird, sectorsToTally, surveyData));
     }
   });
-  Object.entries(tally).forEach(([birdName, birdTally]) => {
+  Object.entries(tally).forEach(([birdName]) => {
     if (!birdsList.find((bird: BirdMetadata) => bird.shortName === birdName)) {
       worksheet.addRow(
         createTallyRow(

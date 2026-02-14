@@ -39,6 +39,14 @@ export type SurveyAction =
     } & BaseAction)
   | ({ type: "ADD_SPECIES" } & BaseAction);
 
+function setLastInteractionTime(
+  draft: Draft<SiteSurveyData>,
+  sectorId: string,
+): Draft<SiteSurveyData> {
+  draft.sectors[sectorId].lastEditTime = new Date();
+  return draft;
+}
+
 export function surveyReducer(
   draft: Draft<SiteSurveyData>,
   action: SurveyAction,
@@ -48,24 +56,29 @@ export function surveyReducer(
       return createSurvey(action.weather);
     case "SET_SECTOR_START_TIME":
       draft.sectors[action.sectorId].startTime = new Date();
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "DECREASE_BIRD":
       draft.sectors[action.sectorId].birds[action.birdName].count = Math.max(
         0,
         draft.sectors[action.sectorId].birds[action.birdName].count - 1,
       );
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "INCREASE_BIRD":
       draft.sectors[action.sectorId].birds[action.birdName].count =
         draft.sectors[action.sectorId].birds[action.birdName].count + 1;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "UPDATE_BIRD_COUNT":
       draft.sectors[action.sectorId].birds[action.birdName].count =
         action.count || 0;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "UPDATE_BIRD_NOTES":
       draft.sectors[action.sectorId].birds[action.birdName].notes =
         action.notes;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "UPDATE_BIRD_BREEDING_CODES":
       if (action.checked) {
@@ -80,12 +93,14 @@ export function surveyReducer(
             action.birdName
           ].breedingCodes.filter((code) => code !== action.breedingCode);
       }
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "ADD_BROOD":
       draft.sectors[action.sectorId].birds[action.birdName].broods.push({
         count: 1,
         age: null,
       });
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "REMOVE_BROOD":
       const broodsCopy = [
@@ -93,16 +108,19 @@ export function surveyReducer(
       ];
       broodsCopy.splice(action.broodIndex, 1);
       draft.sectors[action.sectorId].birds[action.birdName].broods = broodsCopy;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "UPDATE_BROOD_COUNT":
       draft.sectors[action.sectorId].birds[action.birdName].broods[
         action.broodIndex
       ].count = action.count || 0;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "UPDATE_BROOD_AGE":
       draft.sectors[action.sectorId].birds[action.birdName].broods[
         action.broodIndex
       ].age = action.age as BroodAge;
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     case "ADD_SPECIES":
       if (!action.birdName) {
@@ -116,6 +134,7 @@ export function surveyReducer(
           breedingCodes: [],
         };
       });
+      setLastInteractionTime(draft, action.sectorId);
       return draft;
     default:
       return draft;

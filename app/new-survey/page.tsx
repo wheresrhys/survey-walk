@@ -4,7 +4,7 @@ import { useSurveyDispatch } from "../components/SurveyProvider";
 import { type WeatherData } from "../models/survey";
 import { redirect } from "next/navigation";
 
-export default function () {
+export default function NewSurvey() {
   const dispatch = useSurveyDispatch();
   const [temperature, setTemperature] = useState(10);
   const [windSpeed, setWindSpeed] = useState(0);

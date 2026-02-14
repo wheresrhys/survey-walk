@@ -43,6 +43,7 @@ export type BirdSurveyData = {
 export type SectorSurveyData = {
   birds: Record<string, BirdSurveyData>;
   startTime: Date | null;
+  lastEditTime: Date | null;
 };
 
 export type WeatherData = {
@@ -57,7 +58,7 @@ export type WeatherData = {
 export type SiteSurveyData = {
   sectors: Record<string, SectorSurveyData>;
   weather: WeatherData;
-  createdTimestamp: number;
+  createdTime: Date;
 };
 const defaultWeather: WeatherData = {
   temperature: 0,
@@ -73,7 +74,7 @@ export function createSurvey(
 ): SiteSurveyData {
   return {
     weather: weather,
-    createdTimestamp: Date.now(),
+    createdTime: new Date(),
     sectors: sectorsList.reduce(
       (acc, sector) => {
         acc[sector.id] = {
@@ -90,6 +91,7 @@ export function createSurvey(
             {} as Record<string, BirdSurveyData>,
           ),
           startTime: null,
+          lastEditTime: null,
         };
         return acc;
       },
