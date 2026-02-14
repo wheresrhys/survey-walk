@@ -34,7 +34,7 @@ export default function Home() {
     });
   }, [activeTab, activeTabRef.current]);
   return (
-    <main className="">
+    <main className="light">
       <nav
         className="tabs tabs-bordered overflow-x-auto gap-2 fixed top-0 left-0 right-0 z-10 bg-base-100"
         aria-label="Tabs"
