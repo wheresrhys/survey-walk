@@ -76,13 +76,13 @@ export function SectorSurvey({
         {Object.keys(sectorSurveyData.birds).map((bird) => (
           <div className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1" key={bird}>
             <button
-              className="btn btn-square btn-secondary join-item  flex-shrink-0"
+              className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
               onClick={() => decreaseBirdCount(bird)}
             >
               {sectorSurveyData.birds[bird].count}
             </button>
             <button
-              className="btn btn-soft btn-primary join-item flex-1 min-w-0"
+              className="btn btn-sm btn-soft btn-primary join-item flex-1 min-w-0 font-bold"
               value={bird}
               {...longPressProps}
               onClick={() => increaseBirdCount(bird)}
