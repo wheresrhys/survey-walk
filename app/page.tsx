@@ -19,7 +19,7 @@ export default function Home() {
   );
 
   useEffect(() => {
-    // @eslint-ignore react-hooks/set-state-in-effect
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveTab(sectorsList[0].id);
   }, [surveyData.createdTime]);
 
