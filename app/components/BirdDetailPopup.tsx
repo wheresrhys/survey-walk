@@ -40,7 +40,7 @@ export function BirdDetailPopup({
       type: "UPDATE_BIRD_BREEDING_CODES",
       sectorId,
       birdName,
-      breedingCode: event.target.id,
+      breedingCode: event.target.id as BreedingCode,
       checked: event.target.checked,
     });
   }

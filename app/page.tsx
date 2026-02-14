@@ -3,12 +3,13 @@
 import { sectorsList, type SectorMetadata } from "@/app/data/sectors-gazetteer";
 import { useState, useEffect, useRef } from "react";
 import { SectorSurvey } from "@/app/components/SectorSurvey";
-import { useSurvey } from "@/app/components/SurveyProvider";
+import { useSurvey, useSurveyDispatch } from "@/app/components/SurveyProvider";
 import Link from "next/link";
 import { exportToExcel } from "@/app/lib/excel-export";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(sectorsList[0].id);
+  const dispatch = useSurveyDispatch();
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const surveyData = useSurvey();
   const activeSector = sectorsList.find(
@@ -32,6 +33,16 @@ export default function Home() {
       behavior: "smooth",
     });
   }, [activeTab]);
+
+  function toggleFreeze() {
+    if (surveyData.isFrozen) {
+      if (confirm("Are you sure you want to unfreeze the survey?")) {
+        dispatch({ type: "TOGGLE_FREEZE" });
+      }
+    } else {
+      dispatch({ type: "TOGGLE_FREEZE" });
+    }
+  }
   return (
     <main className="light">
       <nav
@@ -77,26 +88,37 @@ export default function Home() {
       </div>
 
       <div className="flex items-center justify-start gap-2 flex-wrap">
+        {surveyData.isFrozen ? (
+          <>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => exportToExcel(surveyData, "lvrpa")}
+            >
+              Export LVRPA
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => exportToExcel(surveyData, "stats")}
+            >
+              Export stats
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => exportToExcel(surveyData, "ebird", "csv")}
+            >
+              Export Ebird
+            </button>
+          </>
+        ) : null}
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={() => exportToExcel(surveyData, "lvrpa")}
+          onClick={toggleFreeze}
         >
-          Export LVRPA
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => exportToExcel(surveyData, "stats")}
-        >
-          Export stats
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => exportToExcel(surveyData, "ebird", "csv")}
-        >
-          Export Ebird
+          {surveyData.isFrozen ? "Unfreeze survey" : "Freeze survey"}
         </button>
         <Link className="btn btn-primary" href="/new-survey">
           Start New Survey

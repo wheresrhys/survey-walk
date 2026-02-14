@@ -59,6 +59,7 @@ export type SiteSurveyData = {
   sectors: Record<string, SectorSurveyData>;
   weather: WeatherData;
   createdTime: Date;
+  isFrozen: boolean;
 };
 const defaultWeather: WeatherData = {
   temperature: 0,
@@ -75,6 +76,7 @@ export function createSurvey(
   return {
     weather: weather,
     createdTime: new Date(),
+    isFrozen: false,
     sectors: sectorsList.reduce(
       (acc, sector) => {
         acc[sector.id] = {

@@ -15,6 +15,7 @@ export type SurveyAction =
       type: "NEW_SURVEY";
       weather?: WeatherData;
     }
+  | { type: "TOGGLE_FREEZE" }
   | { type: "SET_SECTOR_START_TIME"; sectorId: string }
   | ({ type: "DECREASE_BIRD" } & BaseAction)
   | ({ type: "INCREASE_BIRD" } & BaseAction)
@@ -54,6 +55,14 @@ export function surveyReducer(
   switch (action.type) {
     case "NEW_SURVEY":
       return createSurvey(action.weather);
+    case "TOGGLE_FREEZE":
+      draft.isFrozen = !draft.isFrozen;
+      return draft;
+  }
+  if (draft.isFrozen) {
+    return draft;
+  }
+  switch (action.type) {
     case "SET_SECTOR_START_TIME":
       draft.sectors[action.sectorId].startTime = new Date();
       setLastInteractionTime(draft, action.sectorId);
