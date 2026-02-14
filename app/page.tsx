@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main className="">
       <nav
-        className="tabs tabs-bordered overflow-x-auto gap-2"
+        className="tabs tabs-bordered overflow-x-auto gap-2 fixed top-0 left-0 right-0 z-10 bg-base-100"
         aria-label="Tabs"
         role="tablist"
         aria-orientation="horizontal"
@@ -60,7 +60,7 @@ export default function Home() {
         ))}
       </nav>
 
-      <div className="mt-2 p-2">
+      <div className="mt-15 p-2">
         <div
           id={`tab-content`}
           role="tabpanel"

@@ -58,7 +58,7 @@ export function SectorSurvey({
 
   return (
     <>
-      <h2 className="text-2xl font-bold">
+      <h2 className="text-2xl font-bold mb-3">
         {title}{" "}
         {startTime ? (
           <small>(started {formatDate(startTime, "HH:mm")})</small>
@@ -74,15 +74,15 @@ export function SectorSurvey({
       ) : null}
       <div className="flex flex-wrap gap-1 mb-2">
         {Object.keys(sectorSurveyData.birds).map((bird) => (
-          <div className="join flex-[0_0_calc(33.333%-0.333rem)]" key={bird}>
+          <div className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1" key={bird}>
             <button
-              className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
+              className="btn btn-square btn-secondary join-item  flex-shrink-0"
               onClick={() => decreaseBirdCount(bird)}
             >
               {sectorSurveyData.birds[bird].count}
             </button>
             <button
-              className="btn btn-sm btn-soft btn-primary join-item flex-1 min-w-0"
+              className="btn btn-soft btn-primary join-item flex-1 min-w-0"
               value={bird}
               {...longPressProps}
               onClick={() => increaseBirdCount(bird)}
