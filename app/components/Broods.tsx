@@ -12,22 +12,26 @@ export type OmitFromUnion<T, K extends keyof T> = T extends unknown
   : never;
 
 function Brood({
+  sectorId,
+  birdName,
   brood,
   broodIndex,
   dispatch,
 }: {
   brood: BroodSurveyData;
   broodIndex: number;
-  dispatch: (
-    action: OmitFromUnion<SurveyAction, "sectorId" | "birdName">,
-  ) => ReturnType<Dispatch<SurveyAction>>;
+  dispatch: Dispatch<SurveyAction>;
+  sectorId: string;
+  birdName: string;
 }) {
   function removeBrood() {
-    dispatch({ type: "REMOVE_BROOD", broodIndex });
+    dispatch({ type: "REMOVE_BROOD", broodIndex, sectorId, birdName });
   }
   function handleBroodCountChange(event: React.ChangeEvent<HTMLInputElement>) {
     dispatch({
       type: "UPDATE_BROOD_COUNT",
+      sectorId,
+      birdName,
       broodIndex,
       count: parseInt(event.target.value),
     });
@@ -36,6 +40,8 @@ function Brood({
   function handleBroodAgeChange(event: React.ChangeEvent<HTMLSelectElement>) {
     dispatch({
       type: "UPDATE_BROOD_AGE",
+      sectorId,
+      birdName,
       broodIndex,
       age: event.target.value as BroodAge,
     });
@@ -97,12 +103,6 @@ export function Broods({
     dispatch({ type: "ADD_BROOD", sectorId, birdName });
   }
 
-  function broodDispatch(
-    action: OmitFromUnion<SurveyAction, "sectorId" | "birdName">,
-  ): ReturnType<Dispatch<SurveyAction>> {
-    return dispatch({ ...action, sectorId, birdName });
-  }
-
   return (
     <div className="mb-4">
       {broodsData.map((brood, index) => (
@@ -110,7 +110,9 @@ export function Broods({
           brood={brood}
           key={index}
           broodIndex={index}
-          dispatch={broodDispatch}
+          dispatch={dispatch}
+          sectorId={sectorId}
+          birdName={birdName}
         />
       ))}
       <div className="flex justify-end">

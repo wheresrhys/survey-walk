@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";
 import { useLocalStorage } from "usehooks-ts";
-import { useEffect, useState, type Dispatch } from "react";
+import { useEffect, useState, type Dispatch, useEffectEvent } from "react";
 import { type SurveyAction } from "@/app/lib/survey-reducer";
 
 export const SurveyContext = createContext<SiteSurveyData>(
@@ -41,10 +41,14 @@ export default function SurveyProvider({
     storedSurvey?.surveyData || createSurvey(),
   );
 
-  useEffect(() => {
+  const bustCachedIncompatableSurvey = useEffectEvent(() => {
     if (storedSurvey && storedSurvey.schemaVersion !== SCHEMA_VERSION) {
       dispatch({ type: "NEW_SURVEY" });
     }
+  });
+
+  useEffect(() => {
+    bustCachedIncompatableSurvey();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
