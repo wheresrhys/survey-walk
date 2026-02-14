@@ -11,11 +11,11 @@ interface BaseAction {
 
 // Individual action types using discriminated unions
 export type SurveyAction =
-  | ({
-      type: "NEW_SESSION";
+  | {
+      type: "NEW_SURVEY";
       weather?: WeatherData;
-    } & BaseAction)
-  | ({ type: "SET_SECTOR_START_TIME" } & BaseAction)
+    }
+  | { type: "SET_SECTOR_START_TIME"; sectorId: string }
   | ({ type: "DECREASE_BIRD" } & BaseAction)
   | ({ type: "INCREASE_BIRD" } & BaseAction)
   | ({ type: "UPDATE_BIRD_COUNT"; count: number } & BaseAction)
@@ -52,7 +52,7 @@ export function surveyReducer(
   action: SurveyAction,
 ): Draft<SiteSurveyData> {
   switch (action.type) {
-    case "NEW_SESSION":
+    case "NEW_SURVEY":
       return createSurvey(action.weather);
     case "SET_SECTOR_START_TIME":
       draft.sectors[action.sectorId].startTime = new Date();

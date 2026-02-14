@@ -4,12 +4,15 @@ import { createContext, useContext } from "react";
 import { surveyReducer } from "@/app/lib/survey-reducer";
 import { useImmerReducer } from "use-immer";
 import { useLocalStorage } from "usehooks-ts";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch } from "react";
+import { type SurveyAction } from "@/app/lib/survey-reducer";
 
 export const SurveyContext = createContext<SiteSurveyData>(
   {} as SiteSurveyData,
 );
-export const SurveyDispatchContext = createContext<any>(null);
+export const SurveyDispatchContext = createContext<
+  Dispatch<SurveyAction> | ((action: SurveyAction) => void)
+>(() => undefined);
 
 export function useSurvey() {
   return useContext(SurveyContext);
@@ -26,30 +29,30 @@ export default function SurveyProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const defaultSession = createSurvey();
-  const [storedSession, setStoredSession] = useLocalStorage<{
+  const [storedSurvey, setStoredSurvey] = useLocalStorage<{
     schemaVersion: number;
     surveyData: SiteSurveyData;
   } | null>("survey-data", null);
-
   const [isMounted, setIsMounted] = useState(false);
+
+  // Initialize state with stored Survey or default
+  const [surveyData, dispatch] = useImmerReducer(
+    surveyReducer,
+    storedSurvey?.surveyData || createSurvey(),
+  );
+
   useEffect(() => {
-    if (storedSession && storedSession.schemaVersion !== SCHEMA_VERSION) {
-      dispatch({ type: "NEW_SESSION", sectorId: "ignore", birdName: "ignore" });
+    if (storedSurvey && storedSurvey.schemaVersion !== SCHEMA_VERSION) {
+      dispatch({ type: "NEW_SURVEY" });
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
-  // Initialize state with stored session or default
-  const [surveyData, dispatch] = useImmerReducer(
-    surveyReducer,
-    storedSession?.surveyData || defaultSession,
-  );
-
   // Sync surveyData changes back to localStorage
   useEffect(() => {
-    setStoredSession({ schemaVersion: SCHEMA_VERSION, surveyData: surveyData });
-  }, [surveyData, setStoredSession]);
+    setStoredSurvey({ schemaVersion: SCHEMA_VERSION, surveyData: surveyData });
+  }, [surveyData, setStoredSurvey]);
 
   if (!isMounted) {
     return (

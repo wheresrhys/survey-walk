@@ -1,7 +1,7 @@
 import { useSurveyDispatch } from "@/app/components/SurveyProvider";
 import { type SectorSurveyData } from "@/app/models/survey";
 import { useLongPress } from "@react-aria/interactions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useEffectEvent } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
 import { format as formatDate } from "date-fns";
 
@@ -19,15 +19,16 @@ export function SectorSurvey({
   const dispatch = useSurveyDispatch();
   const [focusedBird, setFocusedBird] = useState<string | null>();
   const [speciesToAdd, setSpeciesToAdd] = useState<string>("");
-
-  useEffect(() => {
+  const setSectorStartTime = useEffectEvent((activeTab: string) => {
     if (sectorSurveyData.startTime === null) {
       dispatch({
         type: "SET_SECTOR_START_TIME",
         sectorId: activeTab,
-        birdName: null,
       });
     }
+  });
+  useEffect(() => {
+    setSectorStartTime(activeTab);
   }, [activeTab]);
   function changeSpeciesToAdd(event: React.ChangeEvent<HTMLInputElement>) {
     setSpeciesToAdd(event.target.value);

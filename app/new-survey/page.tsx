@@ -25,9 +25,7 @@ export default function NewSurvey() {
       if (confirm("Really really sure - this can't be undone????")) {
         if (confirm("On your own head be it!!")) {
           dispatch({
-            type: "NEW_SESSION",
-            sectorId: null,
-            birdName: null,
+            type: "NEW_SURVEY",
             weather: weatherData,
           });
           redirect("/");
