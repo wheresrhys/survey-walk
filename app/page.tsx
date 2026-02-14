@@ -44,7 +44,7 @@ export default function Home() {
     }
   }
   return (
-    <main className="light">
+    <main>
       <nav
         className="tabs tabs-bordered overflow-x-auto gap-2 fixed top-0 left-0 right-0 z-10 bg-base-100"
         aria-label="Tabs"
@@ -111,6 +111,9 @@ export default function Home() {
             >
               Export Ebird
             </button>
+            <Link className="btn btn-secondary" href="/table-view">
+              Table View
+            </Link>
           </>
         ) : null}
         <button
@@ -120,6 +123,7 @@ export default function Home() {
         >
           {surveyData.isFrozen ? "Unfreeze survey" : "Freeze survey"}
         </button>
+
         <Link className="btn btn-primary" href="/new-survey">
           Start New Survey
         </Link>
