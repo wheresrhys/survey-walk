@@ -4,6 +4,7 @@ import { useLongPress } from "@react-aria/interactions";
 import { useEffect, useState, useEffectEvent } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
 import { format as formatDate } from "date-fns";
+import { usePriorityBirds } from "./PriorityBirdsProvider";
 
 export function SectorSurvey({
   activeTab,
@@ -17,6 +18,7 @@ export function SectorSurvey({
   startTime: Date | null;
 }) {
   const dispatch = useSurveyDispatch();
+  const priorityBirds = usePriorityBirds()[activeTab];
   const [focusedBird, setFocusedBird] = useState<string | null>();
   const [speciesToAdd, setSpeciesToAdd] = useState<string>("");
   const setSectorStartTime = useEffectEvent((activeTab: string) => {
@@ -27,6 +29,14 @@ export function SectorSurvey({
       });
     }
   });
+  const prioritisedBirds = Object.keys(sectorSurveyData.birds).sort(
+    (aName, bName) => {
+      const aPriority = priorityBirds.has(aName) ? 1 : 0;
+      const bPriority = priorityBirds.has(bName) ? 1 : 0;
+      return bPriority - aPriority;
+    },
+  );
+
   useEffect(() => {
     setSectorStartTime(activeTab);
   }, [activeTab]);
@@ -74,24 +84,24 @@ export function SectorSurvey({
         />
       ) : null}
       <div className="flex flex-wrap gap-1 mb-2">
-        {Object.keys(sectorSurveyData.birds).map((bird) => (
+        {prioritisedBirds.map((birdName) => (
           <div
             className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1"
-            key={bird}
+            key={birdName}
           >
             <button
               className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
-              onClick={() => decreaseBirdCount(bird)}
+              onClick={() => decreaseBirdCount(birdName)}
             >
-              {sectorSurveyData.birds[bird].count}
+              {sectorSurveyData.birds[birdName].count}
             </button>
             <button
-              className="btn btn-sm btn-soft btn-primary join-item flex-1 min-w-0 font-bold"
-              value={bird}
+              className={`btn btn-sm ${priorityBirds.has(birdName) ? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
+              value={birdName}
               {...longPressProps}
-              onClick={() => increaseBirdCount(bird)}
+              onClick={() => increaseBirdCount(birdName)}
             >
-              {bird}
+              {birdName}
             </button>
           </div>
         ))}
