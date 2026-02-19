@@ -9,8 +9,10 @@
     "lint": "prettier -w app && eslint",
     "type:check": "tsc --noEmit",
     "qa": "npm run lint && npm run type:check",
-    "type:check:open": "tsx scripts/open-type-errors.ts"
+    "type:check:open": "tsx scripts/open-type-errors.ts",
+    "history": "tsx scripts/gather-history.ts"
   },
+  "type": "module",
   "dependencies": {
     "@react-aria/interactions": "^3.27.0",
     "date-fns": "^4.1.0",
@@ -32,8 +34,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "csv-parser": "^3.2.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "googleapis": "^171.4.0",
+    "p-ratelimit": "^1.0.1",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
