@@ -15,7 +15,7 @@ export default function PriorityBirdsProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const priorityBirds = getPriorityBirdsMap(new Date().getMonth() + 1);
+  const priorityBirds = getPriorityBirdsMap(new Date());
   return (
     <PriorityBirdsContext.Provider value={priorityBirds}>
       {children}

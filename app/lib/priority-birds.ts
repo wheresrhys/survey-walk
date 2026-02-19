@@ -12,7 +12,7 @@ function lvrpaNameToShortName(name: string): string | undefined {
   return birdsList.find((bird) => bird.lvrpaName === name)?.shortName;
 }
 
-function getTopBirds(sector: string, month: string): Set<string> {
+function getTopBirds(sector: string, month: string, dayOfMonth: number): Set<string> {
   const nextMonth = String((Number(month) % 12) + 1).padStart(2, "0");
   const prevMonth = String(((Number(month) + 10) % 12) + 1).padStart(2, "0");
   const dataToFilter = Object.entries(distilledHistory);
@@ -23,14 +23,19 @@ function getTopBirds(sector: string, month: string): Set<string> {
       monthFrequencies[month]?.[sector] === monthFrequency[month],
     // Birds seen in most years in this sector
     ([, monthFrequencies]) =>
-      monthFrequencies[month]?.[sector] + 1 >= monthFrequency[month],
-    // TODO base these at least partially on day of month
-    // Birds seen next month in this sector
+      monthFrequencies[month]?.[sector] >= monthFrequency[month] - 1,
+    // Birds seen every year in next month in this sector
     ([, monthFrequencies]) =>
-      monthFrequencies[nextMonth]?.[sector] === monthFrequency[nextMonth],
-    // Birds seen prev month in this sector
+      dayOfMonth >=12 && monthFrequencies[nextMonth]?.[sector] === monthFrequency[nextMonth],
+    // Birds seen every year in prev month in this sector
     ([, monthFrequencies]) =>
-      monthFrequencies[prevMonth]?.[sector] === monthFrequency[prevMonth],
+      dayOfMonth <= 20 && monthFrequencies[prevMonth]?.[sector] === monthFrequency[prevMonth],
+    // Birds seen most years in next month in this sector
+    ([, monthFrequencies]) =>
+      dayOfMonth >= 20 && monthFrequencies[nextMonth]?.[sector] >= monthFrequency[nextMonth] -1 ,
+    // Birds seen most years in prev month in this sector
+    ([, monthFrequencies]) =>
+      dayOfMonth <= 10 && monthFrequencies[prevMonth]?.[sector] >= monthFrequency[prevMonth]- 1,
   ];
   let i = 0;
   while (topBirds.size < 24 && i < filters.length) {
@@ -46,12 +51,14 @@ function getTopBirds(sector: string, month: string): Set<string> {
   return topBirds;
 }
 
-export function getPriorityBirdsMap(month: number) {
-  const monthAsString = String(month).padStart(2, "0");
+export function getPriorityBirdsMap(date: Date) {
+
+  const monthAsString = String(date.getMonth() + 1).padStart(2, "0");
+  const dayOfMonth = date.getDate();
   return Object.fromEntries(
     sectorsList.map(({ id: sectorId }) => [
       sectorId,
-      getTopBirds(sectorId, monthAsString),
+      getTopBirds(sectorId, monthAsString, dayOfMonth),
     ]),
   );
 }
