@@ -22,7 +22,7 @@ export function useSurveyDispatch() {
   return useContext(SurveyDispatchContext);
 }
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 export default function SurveyProvider({
   children,

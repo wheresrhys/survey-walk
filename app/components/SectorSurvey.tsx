@@ -18,7 +18,7 @@ export function SectorSurvey({
   startTime: Date | null;
 }) {
   const dispatch = useSurveyDispatch();
-  const priorityBirds = usePriorityBirds();
+  const priorityBirds = usePriorityBirds()[activeTab];
   const [focusedBird, setFocusedBird] = useState<string | null>();
   const [speciesToAdd, setSpeciesToAdd] = useState<string>("");
   const setSectorStartTime = useEffectEvent((activeTab: string) => {
@@ -29,12 +29,24 @@ export function SectorSurvey({
       });
     }
   });
+  console.log("priorityBirds", priorityBirds);
+  const prioritisedBirds = Object.keys(sectorSurveyData.birds).sort(
+    (aName, bName) => {
+      console.log(
+        "aName",
+        aName,
+        priorityBirds.has(aName),
+        "bName",
+        bName,
+        priorityBirds.has(bName),
+      );
+      const aPriority = priorityBirds.has(aName) ? 1 : 0;
+      const bPriority = priorityBirds.has(bName) ? 1 : 0;
+      return bPriority - aPriority;
+    },
+  );
 
-  const prioritisedBirds = Object.keys(sectorSurveyData.birds).sort((aName, bName) => {
-    const aPriority = priorityBirds[activeTab].has(aName) ? 1 : 0;
-    const bPriority = priorityBirds[activeTab].has(bName) ? 1 : 0;
-    return bPriority - aPriority;
-  })
+  console.log("prioritisedBirds", prioritisedBirds);
 
   useEffect(() => {
     setSectorStartTime(activeTab);
@@ -95,7 +107,7 @@ export function SectorSurvey({
               {sectorSurveyData.birds[birdName].count}
             </button>
             <button
-              className={`btn btn-sm ${priorityBirds[activeTab].has(birdName) ? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
+              className={`btn btn-sm ${priorityBirds.has(birdName) ? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
               value={birdName}
               {...longPressProps}
               onClick={() => increaseBirdCount(birdName)}
