@@ -132,7 +132,7 @@ export default function Home() {
         }
       />
       <nav
-        className="tabs tabs-bordered overflow-x-auto gap-2 fixed top-0 left-0 right-0 z-5 bg-base-100"
+        className="tabs tabs-bordered overflow-x-auto gap-2 fixed top-0 left-0 right-0 z-5 bg-base-100 px-50"
         aria-label="Tabs"
         role="tablist"
         aria-orientation="horizontal"
