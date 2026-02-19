@@ -40,12 +40,12 @@ function getTopBirds(sector: string, month: string, dayOfMonth: number): Set<str
     // Birds seen in at least 2 years in this sector
     ([, distributionForBird]) =>
       distributionForBird[month]?.[sector] >= 2,
-    // Birds seen at least one in this sector
+    // Birds seen at least once in this sector
     ([, distributionForBird]) =>
       distributionForBird[month]?.[sector] >= 1,
-    // Birds seen in every month _somewhere_
-    ([, distributionForBird]) =>
-      Object.keys(distributionForBird).length === 12,
+    // // Birds seen in every month _somewhere_
+    // ([, distributionForBird]) =>
+    //   Object.keys(distributionForBird).length === 12,
   ];
   let i = 0;
   while (topBirds.size < 24 && i < filters.length) {

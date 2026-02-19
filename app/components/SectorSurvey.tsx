@@ -29,24 +29,13 @@ export function SectorSurvey({
       });
     }
   });
-  console.log("priorityBirds", priorityBirds);
   const prioritisedBirds = Object.keys(sectorSurveyData.birds).sort(
     (aName, bName) => {
-      console.log(
-        "aName",
-        aName,
-        priorityBirds.has(aName),
-        "bName",
-        bName,
-        priorityBirds.has(bName),
-      );
       const aPriority = priorityBirds.has(aName) ? 1 : 0;
       const bPriority = priorityBirds.has(bName) ? 1 : 0;
       return bPriority - aPriority;
     },
   );
-
-  console.log("prioritisedBirds", prioritisedBirds);
 
   useEffect(() => {
     setSectorStartTime(activeTab);
