@@ -5,6 +5,50 @@ import { useEffect, useState, useEffectEvent } from "react";
 import { BirdDetailPopup } from "@/app/components/BirdDetailPopup";
 import { format as formatDate } from "date-fns";
 import { usePriorityBirds } from "./PriorityBirdsProvider";
+import { birdsList } from "@/app/data/bird-taxonomy";
+import type { BirdSurveyData } from "@/app/models/survey";
+import { DOMAttributes } from "@react-types/shared";
+function BirdButton({
+  birdName,
+  onDecrease,
+  onIncrease,
+  longPressProps,
+  surveyData,
+  isPriorityBird,
+}: {
+  birdName: string;
+  onDecrease: () => void;
+  onIncrease: () => void;
+  longPressProps: DOMAttributes<HTMLButtonElement>;
+  surveyData: BirdSurveyData;
+  isPriorityBird: boolean;
+}) {
+  let buttonType = "btn-secondary";
+  if (isPriorityBird || surveyData.count > 0) {
+    const isPasserine = birdsList.find(
+      (bird) => bird.shortName === birdName,
+    )?.isPasserine;
+    buttonType = isPasserine ? "btn-accent" : "btn-primary";
+  }
+  return (
+    <div className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1">
+      <button
+        className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
+        onClick={onDecrease}
+      >
+        {surveyData.count}
+      </button>
+      <button
+        className={`btn btn-sm btn-soft ${buttonType} join-item flex-1 min-w-0 font-bold`}
+        value={birdName}
+        {...longPressProps}
+        onClick={onIncrease}
+      >
+        {birdName}
+      </button>
+    </div>
+  );
+}
 
 export function SectorSurvey({
   activeTab,
@@ -85,25 +129,15 @@ export function SectorSurvey({
       ) : null}
       <div className="flex flex-wrap gap-1 mb-2">
         {prioritisedBirds.map((birdName) => (
-          <div
-            className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1"
+          <BirdButton
             key={birdName}
-          >
-            <button
-              className="btn btn-sm btn-square btn-secondary join-item  flex-shrink-0"
-              onClick={() => decreaseBirdCount(birdName)}
-            >
-              {sectorSurveyData.birds[birdName].count}
-            </button>
-            <button
-              className={`btn btn-sm ${(priorityBirds.has(birdName) || sectorSurveyData.birds[birdName].count > 0 )? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
-              value={birdName}
-              {...longPressProps}
-              onClick={() => increaseBirdCount(birdName)}
-            >
-              {birdName}
-            </button>
-          </div>
+            isPriorityBird={priorityBirds.has(birdName)}
+            surveyData={sectorSurveyData.birds[birdName]}
+            birdName={birdName}
+            onDecrease={() => decreaseBirdCount(birdName)}
+            onIncrease={() => increaseBirdCount(birdName)}
+            longPressProps={longPressProps}
+          />
         ))}
       </div>
       <div className="flex flex gap-2">
