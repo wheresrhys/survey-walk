@@ -1,6 +1,6 @@
 import monthFrequencyData from "@/app/data/month-frequency.json";
 import distilledFrequencyData from "@/app/data/frequency-distilled.json";
-type MonthLeafNode = {
+export type MonthLeafNode = {
   total: number;
   totalYears: number;
 } & Record<string, number>;
