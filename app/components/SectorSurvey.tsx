@@ -96,7 +96,7 @@ export function SectorSurvey({
               {sectorSurveyData.birds[birdName].count}
             </button>
             <button
-              className={`btn btn-sm ${priorityBirds.has(birdName) ? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
+              className={`btn btn-sm ${(priorityBirds.has(birdName) || sectorSurveyData.birds[birdName].count > 0 )? "btn-soft btn-primary" : "btn-soft btn-secondary"} join-item flex-1 min-w-0 font-bold`}
               value={birdName}
               {...longPressProps}
               onClick={() => increaseBirdCount(birdName)}
