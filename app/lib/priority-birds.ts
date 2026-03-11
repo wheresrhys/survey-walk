@@ -63,7 +63,7 @@ function getTopBirds(
     //   Object.keys(distributionForBird).length === 12,
   ];
   let i = 0;
-  while (topBirds.size < 30 && i < filters.length) {
+  while (topBirds.size < 33 && i < filters.length) {
     distilledHistoryEntries.filter(filters[i]).forEach(([species]) => {
       const shortName = lvrpaNameToShortName(species);
       if (shortName) {
@@ -97,7 +97,7 @@ export function getPriorityBirdsMap(date: Date) {
     sectorsList.map(({ id: sectorId }) => {
       const topBirds = getTopBirds(sectorId, monthAsString, dayOfMonth);
       let i = 0;
-      while (topBirds.size < 30 && i < orderedBirdsForMonth.length) {
+      while (topBirds.size < 33 && i < orderedBirdsForMonth.length) {
         const shortName = lvrpaNameToShortName(orderedBirdsForMonth[i]);
         if (shortName) {
           topBirds.add(shortName);
