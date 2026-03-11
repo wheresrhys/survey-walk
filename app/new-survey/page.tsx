@@ -68,7 +68,6 @@ export default function NewSurvey() {
             id="windSpeed"
             name="windSpeed"
             min={0}
-            max={4}
             step={1}
             onChange={(e) => setWindSpeed(parseInt(e.target.value))}
           />
