@@ -18,8 +18,10 @@ export function exportToEbird(
   },
 ) {
   const tally = tallyUp(surveyData, (sector) => true);
-  const startTime =
-    surveyData.sectors[sectorsList[0].id].startTime || new Date();
+  // TODO: fix this properly - startTime shodul already be a date!!!
+  const startTime = surveyData.sectors[sectorsList[0].id].startTime
+    ? new Date(surveyData.sectors[sectorsList[0].id].startTime as Date)
+    : new Date();
   const endTime =
     surveyData.sectors[sectorsList[sectorsList.length - 1].id].lastEditTime ||
     new Date();
