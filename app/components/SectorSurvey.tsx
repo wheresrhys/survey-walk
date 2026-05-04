@@ -28,7 +28,7 @@ function BirdButton({
     const isPasserine = birdsList.find(
       (bird) => bird.shortName === birdName,
     )?.isPasserine;
-    buttonType = isPasserine ? "btn-accent" : "btn-primary";
+    buttonType = isPasserine ? "btn-success" : "btn-warning";
   }
   return (
     <div className="join flex-[0_0_calc(33.333%-0.333rem)] mb-1">
