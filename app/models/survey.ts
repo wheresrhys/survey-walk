@@ -70,6 +70,17 @@ const defaultWeather: WeatherData = {
   snowCoverPct: 0,
 };
 
+export function surveyIsEmpty(surveyData: SiteSurveyData): boolean {
+  return !sectorsList.find(sector =>{
+    const sectorData = surveyData.sectors[sector.id];
+    if (!sectorData.startTime) {
+      return false;
+    } else {
+      return Object.values(sectorData.birds).some(bird => bird.count > 0);
+    }
+  });
+}
+
 export function createSurvey(
   weather: WeatherData = defaultWeather,
 ): SiteSurveyData {

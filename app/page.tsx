@@ -6,6 +6,8 @@ import { SectorSurvey } from "@/app/components/SectorSurvey";
 import { useSurvey, useSurveyDispatch } from "@/app/components/SurveyProvider";
 import Link from "next/link";
 import { exportToExcel } from "@/app/lib/excel-export";
+import { useLocalStorage } from "usehooks-ts";
+import { surveyIsEmpty } from "@/app/models/survey";
 
 function Toolbar({
   showTools,
@@ -84,11 +86,18 @@ function Toolbar({
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState(sectorsList[0].id);
+
   const [showTools, setShowTools] = useState(false);
   const dispatch = useSurveyDispatch();
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const surveyData = useSurvey();
+
+  const [storedActiveTab, setStoredActiveTab] = useLocalStorage<string | null>("active-tab", null);
+  let initialActiveTab = storedActiveTab || sectorsList[0].id;
+  if (surveyIsEmpty(surveyData)) {
+    initialActiveTab = sectorsList[0].id;
+  }
+  const [activeTab, setActiveTab] = useState(initialActiveTab);
   const activeSector = sectorsList.find(
     (sector: SectorMetadata) => sector.id === activeTab,
   ) as SectorMetadata;
@@ -97,11 +106,7 @@ export default function Home() {
   );
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveTab(sectorsList[0].id);
-  }, [surveyData.createdTime]);
-
-  useEffect(() => {
+    setStoredActiveTab(activeTab);
     activeTabRef.current?.parentElement?.scrollTo({
       left:
         activeTabRef.current?.offsetLeft +
