@@ -106,7 +106,7 @@ export function surveyReducer(
       return draft;
     case "ADD_BROOD":
       draft.sectors[action.sectorId].birds[action.birdName].broods.push({
-        count: 1,
+        count: null,
         age: null,
       });
       setLastInteractionTime(draft, action.sectorId);

@@ -29,7 +29,7 @@ export const breedingCodes: Record<BreedingCode, string> = {
 };
 
 export type BroodSurveyData = {
-  count: number;
+  count: number | null;
   age: BroodAge | null;
 };
 
