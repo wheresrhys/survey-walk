@@ -2,13 +2,7 @@ import ExcelJS from "exceljs";
 import { type SiteSurveyData } from "@/app/models/survey";
 import { exportToEbird } from "./ebird";
 import { exportToLvrpa } from "./lvrpa";
-
-// const mockWorksheet = {
-//   // @ts-expect-error this is just a test implementation
-//   addRow: (...args) => {
-//     console.log(args.join(", "));
-//   },
-// };
+import { formatDate } from "date-fns";
 
 export function exportToExcel(
   surveyData: SiteSurveyData,
@@ -42,7 +36,7 @@ export function exportToExcel(
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `survey-data.${type}.${fileFormat}`;
+    a.download = `Waterworks survey - ${formatDate(surveyData.createdTime, "yyyy-MM")}.${fileFormat}`;
     document.body.appendChild(a);
     a.click();
   });
