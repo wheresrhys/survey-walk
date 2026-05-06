@@ -86,13 +86,15 @@ function Toolbar({
 }
 
 export default function Home() {
-
   const [showTools, setShowTools] = useState(false);
   const dispatch = useSurveyDispatch();
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const surveyData = useSurvey();
 
-  const [storedActiveTab, setStoredActiveTab] = useLocalStorage<string | null>("active-tab", null);
+  const [storedActiveTab, setStoredActiveTab] = useLocalStorage<string | null>(
+    "active-tab",
+    null,
+  );
   let initialActiveTab = storedActiveTab || sectorsList[0].id;
   if (surveyIsEmpty(surveyData)) {
     initialActiveTab = sectorsList[0].id;

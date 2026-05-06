@@ -58,7 +58,7 @@ function Brood({
         <input
           type="number"
           className="grow"
-          value={brood.count}
+          value={brood.count || ""}
           id="inlineLabelName"
           onChange={handleBroodCountChange}
         />
